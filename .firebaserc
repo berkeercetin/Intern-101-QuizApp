@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "quizapp-dee87": {
+      "hosting": {
+        "app": [
+          "quizapp-dee87"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "quizapp-dee87"
+  }
+}
