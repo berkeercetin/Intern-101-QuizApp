@@ -10,10 +10,17 @@ export class AuthService {
   private auth: Auth = inject(Auth);
   constructor(private router: Router) { }
 
-  byGoogle(): Promise<UserCredential> {
-    return signInWithPopup(this.auth, new GoogleAuthProvider());
+  isLogged(){
+    if(this.auth.currentUser)
+    return true
+
+    return false
   }
 
+  async byGoogle(): Promise<UserCredential> {
+    return await signInWithPopup(this.auth, new GoogleAuthProvider())
+  }
+  
   signup(email: string, password: string): Promise<UserCredential> {
     return createUserWithEmailAndPassword(
       this.auth,
@@ -27,6 +34,9 @@ export class AuthService {
         email.trim(),
         password.trim()
       );
+    }
+    signOut(){
+      return this.auth.signOut()
     }
 
     

@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AuthPage } from './auth.page';
 
+
 const routes: Routes = [
    {
      path: '',

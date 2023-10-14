@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {Location} from '@angular/common';
+import { AuthService } from '../auth/services/auth.service';
 @Component({
   selector: 'app-main',
   templateUrl: './main.page.html',
@@ -8,11 +9,14 @@ import {Location} from '@angular/common';
 })
 export class MainPage implements OnInit {
 
-  constructor(private _location: Location,public _router:Router) { }
+  constructor(private _location: Location,public _router:Router,private authService:AuthService) { }
 
   ngOnInit() {
   }
   back(){
     this._location.back();
+  }
+  signOut(){
+    this.authService.signOut().then(res=>this._router.navigateByUrl(""))
   }
 }

@@ -23,7 +23,7 @@
           <div class="buttonFont">Analizler</div>
         </ion-button>
       </ion-item>
-      <ion-button color="dark" expand="block" fill="clear" [routerLink]="['']">
+      <ion-button (click)=signOut() color="dark" expand="block" fill="clear" [routerLink]="['']">
         <ion-icon name="exit"></ion-icon>
         <ion-label style="margin-left: 8px;">Çıkış Yap</ion-label>
       </ion-button>

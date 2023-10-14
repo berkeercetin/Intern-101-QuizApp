@@ -1,19 +1,19 @@
 <ion-content [fullscreen]="true">
-  <form>
+  <form [formGroup]="ionicForm">
     <ion-grid>
       <ion-row>
         <ion-col>
-          <ion-item lines="full"><ion-input class="custom" placeholder="Email"></ion-input></ion-item>
+          <ion-item lines="full"><ion-input formControlName="email" class="custom" placeholder="Email"></ion-input></ion-item>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-item lines="full"><ion-input color="dark" class="custom" placeholder="Parola"></ion-input></ion-item>
+          <ion-item lines="full"><ion-input formControlName="password"color="dark" class="custom" placeholder="Parola"></ion-input></ion-item>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-button (click)="login()" expand="block" fill="outline" mode="ios">
+          <ion-button (click)="submitForm()" expand="block" fill="outline" mode="ios">
             Giriş Yap
             <ion-icon slot="start" name="log-in-outline"></ion-icon>
           </ion-button>

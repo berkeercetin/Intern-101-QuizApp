@@ -14,7 +14,6 @@ export class UserService {
 
   addUserProfile(user: any,uid:any) {
     if (!user) return;
-
     user.uid=uid
     const usersRef = collection(this.firestore, "users");
     return setDoc(doc(usersRef, uid), user)
