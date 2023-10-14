@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-landing',
@@ -8,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class LandingPage implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router,private auth:AuthService) { }
 
   ngOnInit() {
   }
@@ -18,7 +19,7 @@ export class LandingPage implements OnInit {
   register(){
     this.router.navigateByUrl("register")
   }
-
+  google(){this.auth.byGoogle()}
   // page = 
   //   {
   //     items:[

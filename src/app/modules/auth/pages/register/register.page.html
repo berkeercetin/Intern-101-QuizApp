@@ -1,9 +1,21 @@
 <ion-content [fullscreen]="true">
   <ion-title style="color: white;"  >Gerekli Bilgiler:</ion-title>
-  <form style="padding: 12px;">
-      <ion-item  lines="full"><ion-input class="custom" placeholder="Email"></ion-input></ion-item>
-      <ion-item lines="full"><ion-input color="dark" class="custom" placeholder="Parola"></ion-input></ion-item>
-      <ion-item lines="full"><ion-input color="dark" class="custom" placeholder="Parola Yeniden"></ion-input></ion-item>
+  <form style="padding: 12px;" [formGroup]="ionicForm">
+      <ion-item lines="full"><ion-input formControlName="name"   class="custom" placeholder="Kullanıcı Adı"></ion-input></ion-item>
+      <!-- <span class="error ion-padding" *ngIf="isSubmitted && errorControl.name.errors?.required"> İsim girmek zorunludur. </span>
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.name.errors?.minlength"> İsim en az iki karakter olmalıdır. </span> -->
+     
+      <ion-item lines="full"><ion-input formControlName="email" class="custom" placeholder="Email"></ion-input></ion-item>
+      <!-- <span class="error ion-padding" *ngIf="isSubmitted && errorControl.email.errors?.required"> E Posta girmek zorunludur. </span>
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.email.errors?.pattern"> Geçerli bir e posta giriniz. </span> -->
+     
+      <ion-item  lines="full"><ion-input  formControlName="password" color="dark" class="custom" placeholder="Parola"></ion-input></ion-item>
+      <!-- <span class="error ion-padding" *ngIf="isSubmitted && errorControl.password.errors?.required"> Parola girmek zorunludur. </span>
+      <span class="error ion-padding" *ngIf="isSubmitted && errorControl.password.errors?.minlength"> Parola en az 8 karakter olmak zorundadır. </span> -->
+    
+      <ion-item lines="full"><ion-input formControlName="confirmPassword"  color="dark" class="custom" placeholder="Parola Yeniden"></ion-input></ion-item>
+      <!-- <span class="error ion-padding" *ngIf="isSubmitted && errorControl.confirmPassword.errors?.mustMatch"> Parola Eşleşmiyor. </span> -->
+
       <ul style="margin-top: 12px;">
         <li (click)="presentModal()">
           Kullanım Koşulları
@@ -15,8 +27,10 @@
          Kullanım Politikası
        </li>
        </ul>
-      <ion-checkbox labelPlacement="end">Okudum, Onaylıyorum</ion-checkbox>
-      <ion-button style="margin-top: 12px;" expand="block" fill="outline" mode="ios">
+      <ion-checkbox [(ngModel)]="isChecked" [ngModelOptions]="{standalone: true}" labelPlacement="end">Okudum, Onaylıyorum</ion-checkbox>
+      <!-- <span class="error ion-padding" *ngIf="isSubmitted && !isChecked" style="margin-bottom: 8px;"> Devam etmek için kabul etmelisin </span> -->
+
+      <ion-button (click)="submitForm()" style="margin-top: 12px;" expand="block" fill="outline" mode="ios">
         Kaydı Tamamla
         <ion-icon slot="start" name="log-in-outline"></ion-icon>
       </ion-button>

@@ -6,8 +6,15 @@ import { MainPage } from './main.page';
 const routes: Routes = [
   {
     path: '',
-    component: MainPage
-  }
+    component: MainPage,
+    children:[
+      {
+        path: 'home',
+        loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+      }
+    ]
+  },
+
 ];
 
 @NgModule({
