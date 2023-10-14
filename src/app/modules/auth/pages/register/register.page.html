@@ -1,51 +1,24 @@
 <ion-content [fullscreen]="true">
   <ion-title style="color: white;"  >Gerekli Bilgiler:</ion-title>
-  <form>
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <ion-item lines="full"><ion-input class="custom" placeholder="Email"></ion-input></ion-item>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <ion-item lines="full"><ion-input color="dark" class="custom" placeholder="Parola"></ion-input></ion-item>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <ion-item lines="full"><ion-input color="dark" class="custom" placeholder="Parola Yeniden"></ion-input></ion-item>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-         <ul>
-          <li>
-            Kullanım Koşulları
-          </li>
-          <li>
-             Çerez Kullanım Politikası
-          </li>
-          <li>
-           Kullanım Politikası
-         </li>
-         </ul>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <ion-checkbox labelPlacement="end">Okudum, Onaylıyorum</ion-checkbox>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <ion-button expand="block" fill="outline" mode="ios">
-            <!-- <i  class="fa-solid fa-right-to-bracket"></i> -->
-            <div style="background: white;" slot="start"><ion-icon slot="start" name="log-in"></ion-icon></div>
-            <div>İleri</div>
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+  <form style="padding: 12px;">
+      <ion-item  lines="full"><ion-input class="custom" placeholder="Email"></ion-input></ion-item>
+      <ion-item lines="full"><ion-input color="dark" class="custom" placeholder="Parola"></ion-input></ion-item>
+      <ion-item lines="full"><ion-input color="dark" class="custom" placeholder="Parola Yeniden"></ion-input></ion-item>
+      <ul style="margin-top: 12px;">
+        <li (click)="presentModal()">
+          Kullanım Koşulları
+        </li>
+        <li>
+           Çerez Kullanım Politikası
+        </li>
+        <li>
+         Kullanım Politikası
+       </li>
+       </ul>
+      <ion-checkbox labelPlacement="end">Okudum, Onaylıyorum</ion-checkbox>
+      <ion-button style="margin-top: 12px;" expand="block" fill="outline" mode="ios">
+        Kaydı Tamamla
+        <ion-icon slot="start" name="log-in-outline"></ion-icon>
+      </ion-button>
   </form>
 </ion-content>

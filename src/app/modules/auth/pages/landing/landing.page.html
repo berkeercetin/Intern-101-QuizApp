@@ -1,21 +1,19 @@
-
 <ion-content [fullscreen]="true">
-  <ion-img src="../../../assets/logo-test.png"></ion-img>
+  <ion-img style="margin: 18px;" src="../../../assets/logo2.svg"></ion-img>
   <ion-grid style="margin-top: 40%;">
     <ion-row>
       <ion-col>
         <ion-button (click)="login()" expand="block" fill="outline" mode="ios">
-          <!-- <i  class="fa-solid fa-right-to-bracket"></i> -->
-          <div style="background: white;" slot="start"><ion-icon slot="start" name="log-in"></ion-icon></div>
-          <div>Giriş Yap</div>
+          Giriş Yap
+          <ion-icon slot="start" name="log-in-outline"></ion-icon>
         </ion-button>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-button (click)="register()" expand="block" fill="outline">
-          <ion-icon slot="start" name="log-in-outline"></ion-icon>
+        <ion-button (click)="register()" expand="block" fill="outline" mode="ios">
           Kayıt Ol
+          <ion-icon slot="start" name="log-in-outline"></ion-icon>
         </ion-button>
       </ion-col>
     </ion-row>
@@ -23,7 +21,7 @@
       <ion-col>
         <hr>
       </ion-col>
-      <ion-col style="text-align: center;"><ion-label>veya</ion-label></ion-col>
+      <ion-col style="text-align: center; color: white;"><ion-label>veya</ion-label></ion-col>
       <ion-col>
         <hr>
       </ion-col>

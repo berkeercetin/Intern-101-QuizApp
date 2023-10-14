@@ -19,4 +19,19 @@ export class LandingPage implements OnInit {
     this.router.navigateByUrl("register")
   }
 
+  // page = 
+  //   {
+  //     items:[
+  //       {
+  //         type:"button",
+  //         buttonText:"Giriş Yap"
+  //       },
+  //       {
+  //         type:"divider",
+  //         buttonText:"Giriş Yap"
+  //       }
+  //     ]
+  //   }
+
+
 }

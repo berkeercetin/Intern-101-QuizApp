@@ -13,10 +13,9 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-button expand="block" fill="outline" mode="ios">
-            <!-- <i  class="fa-solid fa-right-to-bracket"></i> -->
-            <div style="background: white;" slot="start"><ion-icon slot="start" name="log-in"></ion-icon></div>
-            <div>Giriş Yap</div>
+          <ion-button (click)="login()" expand="block" fill="outline" mode="ios">
+            Giriş Yap
+            <ion-icon slot="start" name="log-in-outline"></ion-icon>
           </ion-button>
         </ion-col>
       </ion-row>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { TermsPage } from '../../modals/terms/terms.page';
 
 @Component({
   selector: 'app-register',
@@ -7,9 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterPage implements OnInit {
 
-  constructor() { }
+  constructor(private modalController:ModalController) { }
 
   ngOnInit() {
+  }
+
+  async presentModal() {
+    const modal = await this.modalController.create({
+      component: TermsPage,
+      backdropDismiss: false,
+      componentProps: {
+        'termName': "Kullanım Koşulları,",
+        'termText': "Lorem ipsum sit dolor amet",
+      }
+    });
+    return await modal.present();
   }
 
 }

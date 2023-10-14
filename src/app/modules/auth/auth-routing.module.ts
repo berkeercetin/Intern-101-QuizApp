@@ -27,6 +27,11 @@ const routes: Routes = [
 
      ]
    },
+  {
+    path: 'terms',
+    loadChildren: () => import('./modals/terms/terms.module').then( m => m.TermsPageModule)
+  },
+
  
 ];
 
