@@ -1,10 +1,10 @@
-<ion-header [translucent]="true">
+<ion-header [translucent]="true" *ngIf="checkRoute()">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref=" "></ion-back-button>
+      <ion-button (click)="back()" ><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
     </ion-buttons>
-    <ion-title mode="ios">Giriş</ion-title>
+    <ion-title mode="ios">{{ findPageTitle()}}</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content>  <ion-router-outlet></ion-router-outlet>
+<ion-content>  <ion-router-outlet style="margin-top: 12px;"></ion-router-outlet>
 </ion-content>

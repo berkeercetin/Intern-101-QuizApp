@@ -4,7 +4,7 @@
   <ion-grid style="margin-top: 40%;">
     <ion-row>
       <ion-col>
-        <ion-button expand="block" fill="outline" mode="ios">
+        <ion-button (click)="login()" expand="block" fill="outline" mode="ios">
           <!-- <i  class="fa-solid fa-right-to-bracket"></i> -->
           <div style="background: white;" slot="start"><ion-icon slot="start" name="log-in"></ion-icon></div>
           <div>Giriş Yap</div>
@@ -13,7 +13,7 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-button expand="block" fill="outline">
+        <ion-button (click)="register()" expand="block" fill="outline">
           <ion-icon slot="start" name="log-in-outline"></ion-icon>
           Kayıt Ol
         </ion-button>
