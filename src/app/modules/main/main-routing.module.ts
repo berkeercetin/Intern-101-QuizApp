@@ -11,9 +11,14 @@ const routes: Routes = [
       {
         path: 'home',
         loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
-      }
+      },
+      {
+        path: 'words',
+        loadChildren: () => import('./pages/word-memorize-page/word-memorize-page.module').then( m => m.WordMemorizePagePageModule)
+      },
     ]
   },
+
 
 ];
 

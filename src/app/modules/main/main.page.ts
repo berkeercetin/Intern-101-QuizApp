@@ -16,6 +16,11 @@ export class MainPage implements OnInit {
   back(){
     this._location.back();
   }
+  checkRoute(){
+    if(this._router.url=="/main/home")
+      return false
+    return true
+  }
   signOut(){
     this.authService.signOut().then(res=>this._router.navigateByUrl(""))
   }

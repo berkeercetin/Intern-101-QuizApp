@@ -16,7 +16,11 @@ export class LoginPage implements OnInit {
  repeatPassword: string | any;
  isChecked: boolean | undefined;
   constructor(private router: Router,private auth:AuthService,private alertController:AlertController,private loadingController:LoadingController) { }
-
+  
+  get errorControl() {
+    return this.ionicForm.controls;
+  }
+  
   ngOnInit() {
     this.ionicForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]),
@@ -93,7 +97,9 @@ export class LoginPage implements OnInit {
   }
 
   
-  forgotPassword(){}
+  forgotPassword(){
+    this.router.navigateByUrl("/forgot-password")
+  }
 
 
 }
