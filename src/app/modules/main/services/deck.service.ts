@@ -16,7 +16,6 @@ export class DeckService {
   listDecksbyCategory(categoryID:string){
     const deckCollection=collection(this.firestore,'tags')
     const q = query(deckCollection, where("categoryID", "==",categoryID ));
-
     return collectionData(deckCollection)  as Observable<any>;
   }
   constructor() { }

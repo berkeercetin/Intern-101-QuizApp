@@ -36,6 +36,7 @@
     background-color: #FFF;
     transform: rotateY(0deg);
   }
+
   
   .back {
     background-color: #FFF;
@@ -54,5 +55,8 @@
   .flipped .back {
     display: flex;
   }
-
+  ion-icon{
+    font-size: 24px;
+    padding: 12px;
+  }
   

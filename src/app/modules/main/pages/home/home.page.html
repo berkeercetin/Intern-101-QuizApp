@@ -1,5 +1,4 @@
 <ion-content [fullscreen]="true">
-
   <div id="carouselExample" class="carousel slide">
     <div class="carousel-inner">
       <div class="carousel-item active">
@@ -23,7 +22,6 @@
       <span class="visually-hidden">Next</span>
     </button>
   </div>
-
   <ion-grid>
     <ion-row>
       <ion-col [routerLink]="['/main/words']">
@@ -33,12 +31,12 @@
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col [routerLink]="['/main/word-cards-subjects']">
+      <ion-col >
         <ion-icon name="stats-chart-outline"></ion-icon>
         <br>
         <ion-label>Quizler</ion-label>
       </ion-col>
-      <ion-col>
+      <ion-col [routerLink]="['/main/word-cards-subjects']">
         <ion-icon name="stats-chart-outline"></ion-icon>
         <br>
         <ion-label>Kartlar</ion-label>

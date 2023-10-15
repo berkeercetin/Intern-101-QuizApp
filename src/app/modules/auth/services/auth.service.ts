@@ -12,7 +12,7 @@ export class AuthService {
 
   isLogged(){
     if(this.auth.currentUser)
-    return true
+    return this.auth.currentUser.uid
 
     return false
   }

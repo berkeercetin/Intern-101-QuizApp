@@ -18,8 +18,8 @@ export class WordService {
 
   listWordsbyDeck(deckID:string){
     const wordCollection=collection(this.firestore,'words')
-    const q = query(wordCollection, where("deckID", "==",deckID ));
+    const q = query(wordCollection, where("deckID", "==",deckID));
 
-    return collectionData(wordCollection)  as Observable<any>;
+    return collectionData(q)  as Observable<any>;
   }
 }
