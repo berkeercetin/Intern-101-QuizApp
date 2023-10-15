@@ -5,7 +5,7 @@ import { WordCardsDeckPage } from './word-cards-deck.page';
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':deckID',
     component: WordCardsDeckPage
   }
 ];

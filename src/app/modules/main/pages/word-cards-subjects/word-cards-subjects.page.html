@@ -1,45 +1,21 @@
 <ion-content [fullscreen]="true">
   <ion-accordion-group style="padding: 12px;">
-    <ion-accordion value="first">
+    <ion-accordion *ngFor="let category of categories; let i = index" value="{{i}}">
       <ion-item slot="header">
-        <ion-label>Supermarket</ion-label>
+        <ion-label>{{category.categoryName}}</ion-label>
       </ion-item>
       <div class="ion-padding" slot="content">
         <ion-grid>
           <ion-row>
-            <ion-col size="4">
+            <ion-col *ngFor="let deck of filterDecks(category.categoryID)" size="4" >
               <ion-card>
                 <ion-card-header>
-                  <ion-card-subtitle>Deck1</ion-card-subtitle>
-                </ion-card-header>
-                <ion-card-content>
-                  <ion-icon name="car-sport-outline"></ion-icon>
-
-                </ion-card-content>
-                <ion-button color="success" fill="outline"  class="card-button">Start</ion-button>
-              </ion-card>
-            </ion-col>
-            <ion-col size="4"><ion-card>
-                <ion-card-header>
-                  <ion-card-subtitle>Deck2</ion-card-subtitle>
-                </ion-card-header>
-                <ion-card-content>
-                  <ion-icon name="car-sport-outline"></ion-icon>
-
-                </ion-card-content>
-                <ion-button color="success" fill="outline"  class="card-button">Start</ion-button>
-
-              </ion-card></ion-col>
-            <ion-col size="4">
-              <ion-card>
-                <ion-card-header>
-                  <ion-card-subtitle>Deck3</ion-card-subtitle>
+                  <ion-card-subtitle>Deck {{deck.priority}}</ion-card-subtitle>
                 </ion-card-header>
                 <ion-card-content>
                   <ion-icon name="car-sport-outline"></ion-icon>
                 </ion-card-content>
-                <ion-button color="success" fill="outline" class="card-button">Start</ion-button>
-
+                <ion-button (click)="startDeck(deck.deckID)" color="success" fill="outline" class="card-button">Start</ion-button>
               </ion-card>
             </ion-col>
           </ion-row>
@@ -47,12 +23,6 @@
         <div style="text-align: center;"> <ion-button fill="outline">Next Deck</ion-button>
         </div>
       </div>
-    </ion-accordion>
-    <ion-accordion value="second">
-      <ion-item slot="header">
-        <ion-label>Weather</ion-label>
-      </ion-item>
-      <div class="ion-padding" slot="content">Second Content</div>
     </ion-accordion>
   </ion-accordion-group>
 </ion-content>
