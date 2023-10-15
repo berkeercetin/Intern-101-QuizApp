@@ -1,0 +1,11 @@
+
+ion-card{
+    border-radius: 32px;
+}
+ion-item,ion-accordion{
+    --background:none
+}
+
+ion-accordion-toggle-icon {
+   display: none !important
+}

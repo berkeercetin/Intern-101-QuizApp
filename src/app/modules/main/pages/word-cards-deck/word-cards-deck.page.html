@@ -1,0 +1,107 @@
+<ion-content [fullscreen]="true">
+
+  <div id="carouselExample" class="carousel slide">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="card-container">
+          <ion-card [ngClass]="isFlipped ? 'flipped' : ''">
+            <div class="card-inner">
+              <div class="front">
+                <ion-card-header>
+                  <ion-card-title style="text-align: center;"><ion-icon
+                      name="volume-high-outline"></ion-icon></ion-card-title>
+                  <ion-card-title>Hello</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <ion-button (click)="flipCard()">Flip Card</ion-button>
+                </ion-card-content>
+              </div>
+              <div class="back">
+                <ion-card-header>
+                  <ion-card-title>Hello</ion-card-title>
+                  <ion-card-subtitle>He ' lö</ion-card-subtitle>
+                  <ion-card-title><i class="fa-solid fa-handshake"></i></ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <ion-label>Explantation:</ion-label>
+                  <ion-label>Selamlama ve telefon görüşmesine başlama için kullanılır.</ion-label>
+                  <br>
+                  <ion-label class="example">Example: Hello Yavuz !</ion-label>
+                </ion-card-content>
+              </div>
+            </div>
+          </ion-card>
+        </div>
+      </div>
+      <div  class="carousel-item">
+        <div class="card-container">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Hello kelimesinin Türkçe karşılığı aşağıdakilerden hangisidr ?</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-radio-group [(ngModel)]="selectedAnswer">
+                <div *ngFor="let answer of answers">
+                  <ion-row>
+                    <ion-col size="6">
+                      <ion-radio [value]="answer">{{ answer }}</ion-radio>
+                    </ion-col>
+                  </ion-row>
+                </div>
+              </ion-radio-group>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</ion-content>
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="card-container" >
+  <ion-card [ngClass]="isFlipped ? 'flipped' : ''">
+    <div class="card-inner">
+      <div class="front">
+        <ion-card-header>
+          <ion-card-title style="text-align: center;"><ion-icon name="volume-high-outline"></ion-icon></ion-card-title>
+          <ion-card-title>Hello</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-button (click)="flipCard()">Flip Card</ion-button>
+        </ion-card-content>
+      </div>
+      <div class="back">
+        <ion-card-header>
+          <ion-card-title>Hello</ion-card-title>
+          <ion-card-subtitle>He ' lö</ion-card-subtitle>
+         <ion-card-title><i class="fa-solid fa-handshake"></i></ion-card-title> 
+        </ion-card-header>
+        <ion-card-content>
+          <ion-label>Explantation:</ion-label>
+          <ion-label>Selamlama ve telefon görüşmesine başlama için kullanılır.</ion-label>
+          <br>
+          <ion-label class="example">Example: Hello Yavuz !</ion-label>
+        </ion-card-content>
+      </div>
+    </div>
+  </ion-card>
+</div> -->

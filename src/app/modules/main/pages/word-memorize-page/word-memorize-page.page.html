@@ -1,22 +1,29 @@
-
 <ion-content [fullscreen]="true">
-  <ion-card  *ngFor="let word of cards" >
+  <ion-card *ngFor="let word of cards">
     <ion-card-header style="text-align: center;">
-      {{ word.value < 30 ? 'Unutulmak Üzere !' : word.value >= 30 && word.value < 70 ? 'Tekrar Edilmesi Gerek' : 'Mükemmel Öğrenilmiş' }}
-    </ion-card-header>
-  
-    <ion-card-content>
-      <div class="progress" *ngIf="word">
-        <div class="progress-bar progress-bar-striped progress-bar-animated"
-             role="progressbar"
-             aria-valuemin="0"
-             aria-valuemax="100"
-             style="text-align: right;"
-             [ngStyle]="{'width': word.value + '%', 'background-color': word.value < 50 ? 'red' : word.value >=30 && word.value < 70 ? 'orange' :'green'}">
-          {{word.value}}%
-        </div>
-      </div>
-    </ion-card-content>
+      {{ word.value < 30 ? 'Unutulmak Üzere !' : word.value>= 30 && word.value < 70 ? 'Tekrar Edilmesi Gerek'
+          : 'Mükemmel Öğrenilmiş' }} </ion-card-header>
+          <ion-card-content>
+            <ion-accordion-group>
+              <ion-accordion toggleIcon="school-outline" value="first">
+                <ion-item slot="header" color="">
+                  <ion-label>
+                    <div class="progress" *ngIf="word">
+                      <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                        aria-valuemin="0" aria-valuemax="100" style="text-align: right;"
+                        [ngStyle]="{'width': word.value + '%', 'background-color': word.value < 50 ? 'red' : word.value >=30 && word.value < 70 ? 'orange' :'green'}">
+                        {{word.value}}%
+                      </div>
+                    </div>
+                  </ion-label>
+                </ion-item>
+                <div class="ion-padding" slot="content" size="small">
+                  <ion-label>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.</ion-label>
+                  <ion-button [ngStyle]="{'--background': word.value < 50 ? 'red' : word.value >=30 && word.value < 70 ? 'orange' :'green'}" expand="block" mode="ios">{{ word.value < 30 ? 'Unutmadan Tekrar Et !' : word.value>= 30 && word.value < 70 ? 'Tekrar Et': 'Kelimeleri Göster' }} </ion-button>
+                </div>
+              </ion-accordion>
+            </ion-accordion-group>
+          </ion-card-content>
 
   </ion-card>
 </ion-content>

@@ -16,8 +16,18 @@ const routes: Routes = [
         path: 'words',
         loadChildren: () => import('./pages/word-memorize-page/word-memorize-page.module').then( m => m.WordMemorizePagePageModule)
       },
+      {
+        path: 'word-cards-subjects',
+        loadChildren: () => import('./pages/word-cards-subjects/word-cards-subjects.module').then( m => m.WordCardsSubjectsPageModule)
+      },
+      {
+        path: 'word-cards-deck',
+        loadChildren: () => import('./pages/word-cards-deck/word-cards-deck.module').then( m => m.WordCardsDeckPageModule)
+      },
     ]
   },
+
+
 
 
 ];
