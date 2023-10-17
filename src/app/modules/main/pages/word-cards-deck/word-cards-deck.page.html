@@ -1,7 +1,8 @@
 <ion-content [fullscreen]="true">
   <div *ngIf="words" id="carouselExample" class="carousel slide">
     <div class="carousel-inner">
-      <div *ngFor="let word of words; let i = index "   [ngClass]="{'carousel-item': true, 'active': i === 0}">
+      <ng-container *ngIf="this.route.snapshot.params['type']=='learning'">
+      <div   *ngFor="let word of words; let i = index "   [ngClass]="{'carousel-item': true, 'active': i === 0}">
         <div class="card-container">
           <ion-card [ngClass]="isFlipped[i] ? 'flipped' : ''">
             <div class="card-inner">
@@ -36,19 +37,43 @@
           </ion-card>
         </div>
       </div>
+    </ng-container>
+      <div class="card-container" *ngIf="this.route.snapshot.params['type']=='quiz'">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-subtitle>Hello kelimesinin Türkçe karşılığı aşağıdakilerden hangisidr ?</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-radio-group [(ngModel)]="selectedAnswer">
+                <div >
+                  <ion-row>
+                    <ion-col size="6">
+                      <ion-radio >asd</ion-radio>
+                    </ion-col>
+                  </ion-row>
+                </div>
+              </ion-radio-group>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+
+
     </div>
-    <button (click)="nextCard()" class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+    <button (click)="backCard()" class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Previous</span>
     </button>
-    <button  (click)="backCard()" class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+    <button  (click)="nextCard()" class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
 
 
 
-    <!-- <div class="card-container">
+   <!-- <div class="card-container" *ngIf="type=='quiz'">
       <ion-card>
         <ion-card-header>
           <ion-card-subtitle>Hello kelimesinin Türkçe karşılığı aşağıdakilerden hangisidr ?</ion-card-subtitle>

@@ -21,28 +21,26 @@ export class UserService {
 }
 
   async checkLearningWord(wordID:any,uid:any){
-    console.log(uid)
-    console.log(wordID)
 
     const docRef = doc(this.firestore, "/users/"+ uid +"/learningWords/"+wordID);
     const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-          console.log("Document data:", docSnap.data());
+          return false
         } else {
           // docSnap.data() will be undefined in this case
-          console.log("No such document!");
+          return true          
         }
 
   }
 
- addLearningWord(word:any,uid:string){
-  let learningWord = {
-    ...word,
+ addLearningWord(wordID:any,uid:any){
+  const learnRef = collection(this.firestore, "/users/"+uid+ "/learningWords");
+  const learningWord={
+    wordID:wordID,
     learningPercentage:0,
     _sync:Date.now()
   }
-  const learningWordsRef = collection(this.firestore, "/users/"+ uid +"/learningWords");
-  return setDoc(doc(learningWordsRef, learningWord.wordID), word)
- }
+  return setDoc(doc(learnRef, wordID),learningWord).then(res=>console.log(res)).catch(err=>console.log("err:"+err))
 
+ }
 }

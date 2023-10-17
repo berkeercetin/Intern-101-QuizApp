@@ -5,7 +5,7 @@ import { WordCardsSubjectsPage } from './word-cards-subjects.page';
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':type',
     component: WordCardsSubjectsPage
   }
 ];

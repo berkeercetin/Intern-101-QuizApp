@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore, collection, collectionData, query, where } from '@angular/fire/firestore';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -15,8 +16,8 @@ export class DeckService {
 
   listDecksbyCategory(categoryID:string){
     const deckCollection=collection(this.firestore,'tags')
-    const q = query(deckCollection, where("categoryID", "==",categoryID ));
-    return collectionData(deckCollection)  as Observable<any>;
+    const q = query(deckCollection, where("categoryID", "==",categoryID),where("type", "==",this.route.snapshot.params['type']));
+    return collectionData(q)  as Observable<any>;
   }
-  constructor() { }
+  constructor(private route:ActivatedRoute) { }
 }

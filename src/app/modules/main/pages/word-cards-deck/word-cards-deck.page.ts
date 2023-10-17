@@ -19,13 +19,14 @@ export class WordCardsDeckPage implements OnInit {
   index:any =0
   constructor(
     private wordService:WordService,
-    private route:ActivatedRoute,
+    public route:ActivatedRoute,
     private router:Router,
     private userService:UserService,
     private authService:AuthService
   ) { }
-
+  type="learning"
   ngOnInit() {    
+    console.log(this.route.snapshot.params['type'])
     this.getWords()
   }
 
@@ -34,20 +35,29 @@ export class WordCardsDeckPage implements OnInit {
     this.isFlipped[index] = !this.isFlipped[index];
   }
 
-  nextCard(){
+  async nextCard(){
+    if(await this.userService.checkLearningWord(this.words[this.index].wordID, this.authService.isLogged())){
+      console.log("if girdi")
+      this.userService.addLearningWord(this.words[this.index].wordID,this.authService.isLogged())
+    }
+
     console.log("next: "+this.index)
-    if (this.index==this.words.length)
+    
+    if (this.index==this.words.length-1){
+      
       this.index=0
-    this.index++
-    this.userService.checkLearningWord(this.words[this.index].wordID,this.authService.isLogged())
+      console.log("if",this.index)
+    }else{
+      this.index++
+    }
 
   }
 
   backCard(){
     if (this.index==0)
     this.index=this.words.length
+  else
     this.index--
-  console.log(this.index)
 
   }
 

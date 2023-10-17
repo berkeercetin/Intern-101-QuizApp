@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../../services/category.service';
 import { Observable, Subject, toArray } from 'rxjs';
 import { DeckService } from '../../services/deck.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-word-cards-subjects',
@@ -15,6 +15,7 @@ export class WordCardsSubjectsPage implements OnInit {
   constructor(
     private categoryService:CategoryService,
     private deckService:DeckService,
+    private route:ActivatedRoute,
     private router:Router
     ) { }
 
@@ -28,15 +29,15 @@ export class WordCardsSubjectsPage implements OnInit {
   }
 
    getDecks(categoryID: string) {
-     return this.deckService.listDecksbyCategory(categoryID).subscribe(res=>{ return res})
+     return this.deckService.listDecksbyCategory(categoryID).subscribe(res=>{ console.log(res);return res})
    }
 
-   filterDecks(categoryID:string){
-    return this.decks.filter((deck:any) => deck.categoryID==categoryID);
+   filterDecks(categoryID:string,){
+    return this.decks.filter((deck:any) => deck.categoryID==categoryID && deck.type==this.route.snapshot.params['type'])
    }
 
    startDeck(deckID:string){
-      this.router.navigateByUrl("/main/word-cards-deck/"+deckID)
+      this.router.navigateByUrl("/main/word-cards-deck/"+this.route.snapshot.params['type']+"/"+deckID)
    }
 
 
