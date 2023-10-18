@@ -33,7 +33,7 @@ export class WordCardsSubjectsPage implements OnInit {
    }
 
    filterDecks(categoryID:string,){
-    return this.decks.filter((deck:any) => deck.categoryID==categoryID && deck.type==this.route.snapshot.params['type'])
+    return this.decks.filter((deck:any) => deck.categoryID==categoryID )
    }
 
    startDeck(deckID:string){

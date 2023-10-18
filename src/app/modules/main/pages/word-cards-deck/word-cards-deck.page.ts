@@ -12,22 +12,28 @@ import { AuthService } from 'src/app/modules/auth/services/auth.service';
   styleUrls: ['./word-cards-deck.page.scss'],
 })
 export class WordCardsDeckPage implements OnInit {
-  selectedAnswer:any
-  words:any
-  isFlipped!: boolean[]  
+  selectedAnswer: any
+  words!: any[]
+  isFlipped!: boolean[]
   subs: Subscription = new Subscription();
-  index:any =0
+  index: any = 0
+  question: any;
+  answers: Set<string> = new Set();
   constructor(
-    private wordService:WordService,
-    public route:ActivatedRoute,
-    private router:Router,
-    private userService:UserService,
-    private authService:AuthService
+    private wordService: WordService,
+    public route: ActivatedRoute,
+    private router: Router,
+    private userService: UserService,
+    private authService: AuthService
   ) { }
-  type="learning"
-  ngOnInit() {    
+  type = this.route.snapshot.params['type']
+  ngOnInit() {
     console.log(this.route.snapshot.params['type'])
     this.getWords()
+
+
+
+
   }
 
 
@@ -35,44 +41,76 @@ export class WordCardsDeckPage implements OnInit {
     this.isFlipped[index] = !this.isFlipped[index];
   }
 
-  async nextCard(){
-    if(await this.userService.checkLearningWord(this.words[this.index].wordID, this.authService.isLogged())){
-      console.log("if girdi")
-      this.userService.addLearningWord(this.words[this.index].wordID,this.authService.isLogged())
+  generateQuestion() {
+    //this.question = `Kelimenin İngilizcesi nedir: ${this.words[this.index].turkishWordName}?`
+    this.answers.clear()
+    this.answers.add(this.words[this.index].turkishWordName)
+    for (let i = 0; i < 3; i++) {
+      let randomIndex = Math.floor(Math.random() * this.words.length);
+      console.log(randomIndex)
+      if (!this.answers.has(this.words[randomIndex].turkishWordName)) {
+        this.answers.add(this.words[randomIndex].turkishWordName)
+      }
+
+    }
+  }
+
+  checkAnswer() {
+    console.log(this.words[this.index].wordName)
+    if (this.selectedAnswer == this.words[this.index].turkishWordName) {
+      console.log("dogru")
+    }
+    else {
+      console.log("yanlıs")
+    }
+  }
+
+  async nextCard() {
+    if (this.type == "learning") {
+      if (await this.userService.checkLearningWord(this.words[this.index].wordID, this.authService.isLogged())) {
+        this.userService.addLearningWord(this.words[this.index].wordID, this.authService.isLogged())
+      }
+      if (this.type == "quiz") {
+        this.generateQuestion()
+      }
     }
 
-    console.log("next: "+this.index)
-    
-    if (this.index==this.words.length-1){
-      
-      this.index=0
-      console.log("if",this.index)
-    }else{
+    console.log("next: " + this.index)
+
+    if (this.index == this.words.length - 1) {
+
+      this.index = 0
+      console.log("if", this.index)
+    } else {
       this.index++
     }
 
   }
 
-  backCard(){
-    if (this.index==0)
-    this.index=this.words.length
-  else
-    this.index--
+  backCard() {
+    if (this.index == 0)
+      this.index = this.words.length
+    else
+      this.index--
 
   }
 
-  getWords(){
+  getWords() {
     console.log(this.route.snapshot.params['deckID'])
-   this.wordService.listWordsbyDeck(this.route.snapshot.params['deckID']).subscribe(res=>{
+    this.wordService.listWordsbyDeck(this.route.snapshot.params['deckID']).subscribe(res => {
       console.log(res)
       this.isFlipped = new Array(res.length).fill(false);
-      if(res.length==0)
-        this.router.navigateByUrl("/main/home")
-      this.words=res
+      this.words = res
+      if (this.type == "quiz") {
+        this.generateQuestion()
+      }
+      if (res.length == 0)
+        //this.router.navigateByUrl("/main/home")
+        this.words = res
     })
   }
 
-  ngOnDestroy(){
-  //  this.subs.unsubscribe()
+  ngOnDestroy() {
+    //  this.subs.unsubscribe()
   }
 }
