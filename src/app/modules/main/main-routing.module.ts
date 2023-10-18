@@ -24,8 +24,21 @@ const routes: Routes = [
         path: 'word-cards-deck',
         loadChildren: () => import('./pages/word-cards-deck/word-cards-deck.module').then( m => m.WordCardsDeckPageModule)
       },
+      {
+        path: 'settings',
+        loadChildren: () => import('./pages/settings/settings.module').then( m => m.SettingsPageModule)
+      },
+      {
+        path: 'profile',
+        loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
+      },
+      {
+        path: 'contact',
+        loadChildren: () => import('./pages/contact/contact.module').then( m => m.ContactPageModule)
+      },
     ]
   },
+
 
 
 

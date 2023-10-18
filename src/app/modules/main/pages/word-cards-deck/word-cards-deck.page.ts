@@ -19,6 +19,10 @@ export class WordCardsDeckPage implements OnInit {
   index: any = 0
   question: any;
   answers: Set<string> = new Set();
+  type = this.route.snapshot.params['type']
+
+
+
   constructor(
     private wordService: WordService,
     public route: ActivatedRoute,
@@ -26,32 +30,23 @@ export class WordCardsDeckPage implements OnInit {
     private userService: UserService,
     private authService: AuthService
   ) { }
-  type = this.route.snapshot.params['type']
+
   ngOnInit() {
     console.log(this.route.snapshot.params['type'])
     this.getWords()
-
-
-
-
   }
-
 
   flipCard(index: number) {
     this.isFlipped[index] = !this.isFlipped[index];
   }
 
   generateQuestion() {
-    //this.question = `Kelimenin İngilizcesi nedir: ${this.words[this.index].turkishWordName}?`
-    this.answers.clear()
     this.answers.add(this.words[this.index].turkishWordName)
     for (let i = 0; i < 3; i++) {
       let randomIndex = Math.floor(Math.random() * this.words.length);
-      console.log(randomIndex)
       if (!this.answers.has(this.words[randomIndex].turkishWordName)) {
         this.answers.add(this.words[randomIndex].turkishWordName)
       }
-
     }
   }
 
@@ -74,17 +69,11 @@ export class WordCardsDeckPage implements OnInit {
         this.generateQuestion()
       }
     }
-
-    console.log("next: " + this.index)
-
     if (this.index == this.words.length - 1) {
-
       this.index = 0
-      console.log("if", this.index)
     } else {
       this.index++
     }
-
   }
 
   backCard() {
@@ -92,12 +81,10 @@ export class WordCardsDeckPage implements OnInit {
       this.index = this.words.length
     else
       this.index--
-
   }
 
   getWords() {
-    console.log(this.route.snapshot.params['deckID'])
-    this.wordService.listWordsbyDeck(this.route.snapshot.params['deckID']).subscribe(res => {
+   this.subs= this.wordService.listWordsbyDeck(this.route.snapshot.params['deckID']).subscribe(res => {
       console.log(res)
       this.isFlipped = new Array(res.length).fill(false);
       this.words = res
@@ -111,6 +98,6 @@ export class WordCardsDeckPage implements OnInit {
   }
 
   ngOnDestroy() {
-    //  this.subs.unsubscribe()
+    this.subs.unsubscribe()
   }
 }

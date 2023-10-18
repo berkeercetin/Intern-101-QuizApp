@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../../services/category.service';
-import { Observable, Subject, toArray } from 'rxjs';
+import { Observable, Subject, Subscription, toArray } from 'rxjs';
 import { DeckService } from '../../services/deck.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -12,6 +12,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class WordCardsSubjectsPage implements OnInit {
   categories:any
   decks:any
+  subsCategory: Subscription = new Subscription();
+  subsDeck: Subscription = new Subscription();
+
+
   constructor(
     private categoryService:CategoryService,
     private deckService:DeckService,
@@ -21,15 +25,15 @@ export class WordCardsSubjectsPage implements OnInit {
 
   ngOnInit() {
     this.fetchCategories()
-    this.deckService.listDecks().subscribe(res=>{ this.decks=res})
+    this.getDecks();
   }
 
   fetchCategories(){
-    this.categoryService.listCategories().subscribe(res=>{ this.categories=res})
+    this.subsCategory=this.categoryService.listCategories().subscribe(res=>{ this.categories=res})
   }
 
-   getDecks(categoryID: string) {
-     return this.deckService.listDecksbyCategory(categoryID).subscribe(res=>{ console.log(res);return res})
+   getDecks() {
+   this.subsDeck= this.deckService.listDecks().subscribe(res=>{ this.decks=res})
    }
 
    filterDecks(categoryID:string,){
@@ -38,6 +42,11 @@ export class WordCardsSubjectsPage implements OnInit {
 
    startDeck(deckID:string){
       this.router.navigateByUrl("/main/word-cards-deck/"+this.route.snapshot.params['type']+"/"+deckID)
+   }
+
+   ngOnDestroy(){
+    this.subsCategory.unsubscribe()
+    this.subsCategory.unsubscribe()
    }
 
 
