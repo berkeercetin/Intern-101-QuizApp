@@ -12,4 +12,11 @@ export class SettingsPage implements OnInit {
   ngOnInit() {
   }
 
+  settingsMenu=[
+    {
+      name:"Change Password",
+      icon:"key-outline"
+    }
+  ]
+
 }

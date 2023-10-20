@@ -1,13 +1,7 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>settings</ion-title>
-  </ion-toolbar>
-</ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">settings</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-item *ngFor="let setting of settingsMenu" button detail="true">
+  <ion-icon slot="start" name="{{setting.icon}}"></ion-icon>
+  {{setting.name}}
+</ion-item>
 </ion-content>

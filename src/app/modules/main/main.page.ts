@@ -24,4 +24,23 @@ export class MainPage implements OnInit {
   signOut(){
     this.authService.signOut().then(res=>this._router.navigateByUrl(""))
   }
+
+
+  findPageTitle(){
+    if(this._router.url=="/main/home")
+      return "Anasayfa"
+    if(this._router.url=="/main/word-cards-subjects")
+      return "word-cards-subjects"
+    if(this._router.url=="/main/word-cards-deck")
+      return "word-cards-deck"
+      if(this._router.url=="/main/settings")
+      return "Ayarlar"
+      if(this._router.url=="/main/profile")
+      return "Profil"
+      if(this._router.url=="/main/contact")
+      return "İletişim"
+
+    
+      return "isimsiz"
+  }
 }
