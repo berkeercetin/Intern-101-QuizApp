@@ -38,6 +38,10 @@ const routes: Routes = [
       },
     ]
   },
+  {
+    path: 'answer',
+    loadChildren: () => import('./modals/answer/answer.module').then( m => m.AnswerPageModule)
+  },
 
 
 

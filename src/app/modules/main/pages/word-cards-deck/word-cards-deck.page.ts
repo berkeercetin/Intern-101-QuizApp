@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/modules/auth/services/user.service';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
+import { ModalController } from '@ionic/angular';
+import { AnswerPage } from '../../modals/answer/answer.page';
 
 @Component({
   selector: 'app-word-cards-deck',
@@ -20,7 +22,7 @@ export class WordCardsDeckPage implements OnInit {
   question: any;
   answers: Set<string> = new Set();
   type = this.route.snapshot.params['type']
-
+  answerStatus: { [answer: string]: boolean } = {};
 
 
   constructor(
@@ -28,7 +30,8 @@ export class WordCardsDeckPage implements OnInit {
     public route: ActivatedRoute,
     private router: Router,
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private modalController:ModalController
   ) { }
 
   ngOnInit() {
@@ -53,10 +56,10 @@ export class WordCardsDeckPage implements OnInit {
   checkAnswer() {
     console.log(this.words[this.index].wordName)
     if (this.selectedAnswer == this.words[this.index].turkishWordName) {
-      console.log("dogru")
+     this.presentModal(true,this.words[this.index])
     }
     else {
-      console.log("yanlıs")
+      this.presentModal(false,this.words[this.index])
     }
   }
 
@@ -95,6 +98,17 @@ export class WordCardsDeckPage implements OnInit {
         //this.router.navigateByUrl("/main/home")
         this.words = res
     })
+  }
+  async presentModal(status:any,word:any) {
+    const modal = await this.modalController.create({
+      component: AnswerPage,
+      backdropDismiss: false,
+      componentProps: {
+        'status': status,
+        'word': word,
+      },
+    });
+    return await modal.present();
   }
 
   ngOnDestroy() {

@@ -48,21 +48,28 @@
               </ion-card-header>
               <ion-card-content>
                 <ion-grid>
-                  <ion-radio-group [(ngModel)]="selectedAnswer">
-                    <div *ngFor="let answer of answers">
+                  <ion-radio-group [(ngModel)]="selectedAnswer" >
+                    <div *ngFor="let answer of answers ">
                       <ion-row>
                         <ion-col size="12">
-                          <ion-radio [value]="answer">{{ answer }}</ion-radio>
+                          <ion-radio  [value]="answer">{{ answer }}</ion-radio>
                         </ion-col>
                       </ion-row>
                     </div>
                   </ion-radio-group>
-                  <ion-button expand="block" fill="outline" (click)="checkAnswer()">Kontrol Et</ion-button>
                 </ion-grid>
+                <ion-button (click)="checkAnswer()" id="open-modal" expand="block">Open Sheet Modal</ion-button>
+
               </ion-card-content>
             </ion-card>
           </div>
         </div>
+        <!-- <ion-button id="open-modal" expand="block">Open Sheet Modal</ion-button>
+        <ion-modal trigger="open-modal" [initialBreakpoint]="1" [breakpoints]="[0, 1]">
+          <ng-template>
+            <div class="block">Block of Content</div>
+          </ng-template>
+        </ion-modal> -->
       </ng-container>
     </div>
     <button (click)="backCard()" class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
