@@ -58,7 +58,7 @@
                     </div>
                   </ion-radio-group>
                 </ion-grid>
-                <ion-button (click)="checkAnswer()" id="open-modal" expand="block">Open Sheet Modal</ion-button>
+                <ion-button (click)="checkAnswer()" id="open-modal" expand="block">Kontrol Et</ion-button>
 
               </ion-card-content>
             </ion-card>
@@ -77,7 +77,7 @@
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Previous</span>
     </button>
-    <button (click)="nextCard()" class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+    <button #nextButton (click)="nextCard()"  class="carousel-control-next" type="button" data-bs-target="#carouselExample"
       data-bs-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>

@@ -7,7 +7,7 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./answer.page.scss'],
 })
 export class AnswerPage implements OnInit {
-  @Input() status: boolean | undefined;
+  @Input() status!: boolean ;
   @Input() word: any | undefined;
 
   constructor(  private modalController: ModalController,) { }

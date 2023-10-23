@@ -35,8 +35,6 @@ export class ContactPage implements OnInit {
     if (this.ionicForm.valid ) {
       this.loadingController.create({message:'Kayıt Yapılıyor...', spinner:'crescent', animated:true})
       .then(res => res.present());
-   
-      
     }
   }
 

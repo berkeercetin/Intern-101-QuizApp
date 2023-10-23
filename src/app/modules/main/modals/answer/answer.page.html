@@ -1,5 +1,8 @@
-<ion-modal  [initialBreakpoint]="1" [breakpoints]="[0, 1]">
-  <ng-template>
-    <div class="block">Block of Content</div>
-  </ng-template>
-</ion-modal>
+  <ion-content [ngStyle]="{'--background': status ? 'green' : 'red'}" class="ion-padding">
+    <div class="ion-margin-top">
+      <ion-label *ngIf="status==false">Yanlış.</ion-label>
+      <ion-label *ngIf="status==true">Doğru.</ion-label>
+    </div>
+    <ion-button (click)="dismiss()"  expand="block">Sonraki</ion-button>
+  </ion-content>
+
