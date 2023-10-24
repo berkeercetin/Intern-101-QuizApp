@@ -15,7 +15,8 @@ export class SettingsPage implements OnInit {
   settingsMenu=[
     {
       name:"Change Password",
-      icon:"key-outline"
+      icon:"key-outline",
+      route:"/main/change-password"
     }
   ]
 

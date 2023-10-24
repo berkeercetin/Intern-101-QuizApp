@@ -36,12 +36,17 @@ const routes: Routes = [
         path: 'contact',
         loadChildren: () => import('./pages/contact/contact.module').then( m => m.ContactPageModule)
       },
+      {
+        path: 'answer',
+        loadChildren: () => import('./modals/answer/answer.module').then( m => m.AnswerPageModule)
+      },
+      {
+        path: 'change-password',
+        loadChildren: () => import('./pages/change-password/change-password.module').then( m => m.ChangePasswordPageModule)
+      },
     ]
   },
-  {
-    path: 'answer',
-    loadChildren: () => import('./modals/answer/answer.module').then( m => m.AnswerPageModule)
-  },
+
 
 
 

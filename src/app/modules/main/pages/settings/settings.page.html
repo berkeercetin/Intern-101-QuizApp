@@ -1,7 +1,7 @@
 
 <ion-content [fullscreen]="true">
-<ion-item *ngFor="let setting of settingsMenu" button detail="true">
-  <ion-icon slot="start" name="{{setting.icon}}"></ion-icon>
+<ion-item *ngFor="let setting of settingsMenu" [routerLink]="[setting.route]" button detail="true">
+  <ion-icon [routerLink]="[setting.route]" slot="start" name="{{setting.icon}}"></ion-icon>
   {{setting.name}}
 </ion-item>
 </ion-content>

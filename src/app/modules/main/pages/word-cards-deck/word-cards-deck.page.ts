@@ -74,7 +74,6 @@ export class WordCardsDeckPage implements OnInit {
 
   async nextCard() {
     console.log("next card " +this.index)
-
     if (this.type == "learning") {
       if (await this.userService.checkLearningWord(this.words[this.index].wordID, this.authService.isLogged())) {
         this.userService.addLearningWord(this.words[this.index].wordID, this.authService.isLogged())
@@ -127,7 +126,6 @@ export class WordCardsDeckPage implements OnInit {
       .then( (data) => {
         console.log("modal kapandı")
       this.nextButton.nativeElement.click();
-
       });
     return await modal.present();
   }

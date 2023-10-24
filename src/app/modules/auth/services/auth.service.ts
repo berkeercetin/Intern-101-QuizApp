@@ -1,13 +1,15 @@
 import { Injectable, inject } from '@angular/core';
-import { Auth, GoogleAuthProvider, UserCredential, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup } from '@angular/fire/auth';
+import { Auth,GoogleAuthProvider,updatePassword, UserCredential, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup } from '@angular/fire/auth';
 import { Firestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
+//import { getAuth, updatePassword } from "firebase/auth";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private auth: Auth = inject(Auth);
+
   constructor(private router: Router) { }
 
   isLogged(){
@@ -20,6 +22,10 @@ export class AuthService {
   async byGoogle(): Promise<UserCredential> {
     return await signInWithPopup(this.auth, new GoogleAuthProvider())
   }
+
+  async updatePassword(newPassword:any){
+    return updatePassword(this.auth.currentUser!, newPassword)
+  }
   
   signup(email: string, password: string): Promise<UserCredential> {
     return createUserWithEmailAndPassword(
@@ -28,12 +34,10 @@ export class AuthService {
       password.trim()
     );
   }
-  login(email: string, password: string): Promise<UserCredential> {
-    return signInWithEmailAndPassword(
-        this.auth,
-        email.trim(),
-        password.trim()
-      );
+   login(email: string, password: string): Promise<UserCredential> {
+
+
+    return signInWithEmailAndPassword(this.auth, email, password);
     }
 
     sendResetPasswordEmail(email:string){
