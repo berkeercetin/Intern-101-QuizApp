@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/modules/auth/services/user.service';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
-import { ModalController, ToastController } from '@ionic/angular';
+import { AlertController, ModalController, ToastController } from '@ionic/angular';
 import { AnswerPage } from '../../modals/answer/answer.page';
 
 @Component({
@@ -34,7 +34,8 @@ export class WordCardsDeckPage implements OnInit {
     private toastController:ToastController,
     private userService: UserService,
     private authService: AuthService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private alertController:AlertController
   ) { }
 
   ngOnInit() {
@@ -68,8 +69,16 @@ export class WordCardsDeckPage implements OnInit {
     else {
       console.log("Yanlış Cevap için modal üretildi")
       console.log(this.words[this.index].wordName + "Kelimesi modala yollandı.")
-      this.presentModal(false, this.words[this.index].wordName)
+      this.presentModal(false, this.words[this.index])
     }
+  }
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Tamamladınız !',
+      buttons: ['OK'],
+    });
+    this.router.navigateByUrl('/main/home')
+    await alert.present();
   }
 
   async nextCard() {
@@ -85,6 +94,7 @@ export class WordCardsDeckPage implements OnInit {
     }
     if (this.index == this.words.length - 1) {
       this.index = 0
+      this.presentAlert()
     } else {
       this.index++
     }

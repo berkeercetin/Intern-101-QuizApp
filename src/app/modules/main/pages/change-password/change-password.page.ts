@@ -39,7 +39,7 @@ export class ChangePasswordPage implements OnInit {
       console.log(this.ionicForm.value)
       this.loadingController.create({message:'Şifre Sıfırlanıyor', spinner:'crescent', animated:true})
       .then(res => res.present());
-      this.auth.updatePassword(this.ionicForm.value.repeat)
+      this.auth.updatePassword(this.ionicForm.value.oldPassword ,this.ionicForm.value.repeat)
       .then(res => {console.log("basarılı:"+res);this.router.navigateByUrl('/main/home');})
       .catch(err=>console.log(err))
       .finally(() => { this.loadingController.dismiss(); });

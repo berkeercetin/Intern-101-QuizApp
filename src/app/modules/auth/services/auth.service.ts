@@ -23,8 +23,12 @@ export class AuthService {
     return await signInWithPopup(this.auth, new GoogleAuthProvider())
   }
 
-  async updatePassword(newPassword:any){
-    return updatePassword(this.auth.currentUser!, newPassword)
+  async updatePassword(oldPassword:any,newPassword:any){
+    signInWithEmailAndPassword(this.auth, this.auth.currentUser!.email!.trim(), oldPassword.trim()).then(()=>{
+      return updatePassword(this.auth.currentUser!, newPassword)
+
+    })
+    
   }
   
   signup(email: string, password: string): Promise<UserCredential> {

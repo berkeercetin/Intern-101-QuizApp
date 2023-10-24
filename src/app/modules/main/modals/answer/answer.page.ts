@@ -8,11 +8,12 @@ import { ModalController } from '@ionic/angular';
 })
 export class AnswerPage implements OnInit {
   @Input() status!: boolean ;
-  @Input() word: any | undefined;
+  @Input() word: any ;
 
   constructor(  private modalController: ModalController,) { }
 
   ngOnInit() {
+    console.log(this.word)
   }
   async dismiss() {
     this.modalController.dismiss();

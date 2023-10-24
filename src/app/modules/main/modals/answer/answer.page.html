@@ -1,7 +1,11 @@
-  <ion-content [ngStyle]="{'--background': status ? 'green' : 'red'}" class="ion-padding">
+  <ion-content  class="ion-padding">
     <div class="ion-margin-top">
-      <ion-label *ngIf="status==false">Yanlış.</ion-label>
-      <ion-label *ngIf="status==true">Doğru.</ion-label>
+      <ion-label [ngStyle]="{'color': status ? 'green' : 'red'}" >  {{ status ? 'Doğru' : 'Yanlış' }}
+      </ion-label>
+      <br>
+      <ion-label *ngIf="!status" style="color: green; font-size: 12px;"> {{ word.turkishWordName }}</ion-label>
+      <br>
+      <ion-label style="color: white; font-size: 18px;"> Anlamı : {{ word.explantation }}</ion-label>
     </div>
     <ion-button (click)="dismiss()"  expand="block">Sonraki</ion-button>
   </ion-content>
