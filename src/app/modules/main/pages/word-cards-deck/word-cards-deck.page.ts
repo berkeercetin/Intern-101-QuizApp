@@ -83,7 +83,7 @@ export class WordCardsDeckPage implements OnInit {
 
   async nextCard() {
     console.log("next card " +this.index)
-    this.userService.updateDeck(this.route.snapshot.params['deckID'], this.authService.isLogged(),this.index)
+    this.userService.updateDeck(this.route.snapshot.params['deckID'], this.authService.isLogged(),this.index,this.type)
     if (this.type == "learning") {
       if (await this.userService.checkLearningWord(this.words[this.index].wordID, this.authService.isLogged())) {
         this.userService.addLearningWord(this.words[this.index].wordID, this.authService.isLogged())

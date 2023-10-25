@@ -24,6 +24,8 @@
                 <ion-card-content>
                   <ion-icon name="car-sport-outline"></ion-icon>
                 </ion-card-content>
+                <ion-progress-bar [value]="progress"></ion-progress-bar>
+
                 <ion-button (click)="startDeck(deck.deckID)" color="success" fill="outline"
                   class="card-button">Start</ion-button>
               </ion-card>

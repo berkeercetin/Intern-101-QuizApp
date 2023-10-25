@@ -13,11 +13,11 @@ import { AuthService } from 'src/app/modules/auth/services/auth.service';
 })
 export class WordCardsSubjectsPage implements OnInit {
   categories:any
-  decks:any
+  decks!:any[]
   subsCategory: Subscription = new Subscription();
   subsDeck: Subscription = new Subscription();
   percentage:any
-
+  public progress = 50;
   constructor(
     private categoryService:CategoryService,
     private deckService:DeckService,
@@ -36,11 +36,17 @@ export class WordCardsSubjectsPage implements OnInit {
     this.subsCategory=this.categoryService.listCategories().subscribe(res=>{ this.categories=res})
   }
 
+  checkDeckisStarted(deckID:any){
+    return this.userService.checkLearningDeck(deckID,this.authService.isLogged())
+  }
+
    getDecks() {
    this.subsDeck= this.deckService.listDecks().subscribe(res=>{ this.decks=res})
    }
 
    filterDecks(categoryID:string,){
+    
+
     return this.decks.filter((deck:any) => deck.categoryID==categoryID )
    }
 
@@ -50,6 +56,7 @@ export class WordCardsSubjectsPage implements OnInit {
     }
       this.router.navigateByUrl("/main/word-cards-deck/"+this.route.snapshot.params['type']+"/"+deckID)
    }
+
    findPercentage(deck:any){
     if(this.route.snapshot.params['type']=="quiz"){
       console.log (deck.lastQuizCardIndex)

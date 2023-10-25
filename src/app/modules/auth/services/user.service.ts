@@ -70,11 +70,10 @@ export class UserService {
 
  }
 
- updateDeck(deckID:any,uid:any,index:any){
-  console.log("Update Deck" + index)
+ updateDeck(deckID:any,uid:any,index:any,type:any){
   const deckRef = collection(this.firestore, "/users/"+uid+ "/startedDecks");
   let learningDeck = {}
-  if (this.route.snapshot.params['type']=="quiz"){
+  if (type=="quiz"){
      learningDeck={
       lastQuizCardIndex:index,
       _sync:Date.now()
