@@ -12,65 +12,48 @@ import { AuthService } from 'src/app/modules/auth/services/auth.service';
   styleUrls: ['./word-cards-subjects.page.scss'],
 })
 export class WordCardsSubjectsPage implements OnInit {
-  categories:any
-  decks!:any[]
+  categories: any
+  decks!: any[]
   subsCategory: Subscription = new Subscription();
   subsDeck: Subscription = new Subscription();
-  percentage:any
-  public progress = 50;
+  
   constructor(
-    private categoryService:CategoryService,
-    private deckService:DeckService,
-    private route:ActivatedRoute,
-    private router:Router,
-    private userService:UserService,
-    private authService:AuthService
-    ) { }
+    private categoryService: CategoryService,
+    private deckService: DeckService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private userService: UserService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
     this.fetchCategories()
-    this.getDecks();
+    this.getDecks()
   }
 
-  fetchCategories(){
-    this.subsCategory=this.categoryService.listCategories().subscribe(res=>{ this.categories=res})
+  fetchCategories() {
+    this.subsCategory = this.categoryService.listCategories().subscribe(res => { this.categories = res })
   }
 
-  checkDeckisStarted(deckID:any){
-    return this.userService.checkLearningDeck(deckID,this.authService.isLogged())
+  getDecks() {
+    this.subsDeck = this.deckService.listDecks().subscribe(res => { this.decks = res })
   }
 
-   getDecks() {
-   this.subsDeck= this.deckService.listDecks().subscribe(res=>{ this.decks=res})
-   }
+  filterDecks(categoryID: string,) {
+    return this.decks.filter((deck: any) => deck.categoryID == categoryID)
+  }
 
-   filterDecks(categoryID:string,){
-    
-
-    return this.decks.filter((deck:any) => deck.categoryID==categoryID )
-   }
-
-   async startDeck(deckID:string){
-    if (await this.userService.checkLearningDeck (deckID, this.authService.isLogged())) {
+  async startDeck(deckID: string) {
+    if (await this.userService.checkLearningDeck(deckID, this.authService.isLogged())) {
       this.userService.addLearningDeck(deckID, this.authService.isLogged())
     }
-      this.router.navigateByUrl("/main/word-cards-deck/"+this.route.snapshot.params['type']+"/"+deckID)
-   }
+    this.router.navigateByUrl("/main/word-cards-deck/" + this.route.snapshot.params['type'] + "/" + deckID)
+  }
 
-   findPercentage(deck:any){
-    if(this.route.snapshot.params['type']=="quiz"){
-      console.log (deck.lastQuizCardIndex)
-    }
-    else{
-
-    }
-
-   }
-
-   ngOnDestroy(){
+  ngOnDestroy() {
     this.subsCategory.unsubscribe()
     this.subsCategory.unsubscribe()
-   }
+  }
 
 
 }

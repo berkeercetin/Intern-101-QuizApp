@@ -1,5 +1,7 @@
 <ion-content [fullscreen]="true">
-  <div id="carouselExample" class="carousel slide">
+  <canvas #doughnutCanvas style="position: relative; height:20vh; width:40vw;padding: 12px;"></canvas>
+
+  <!-- <div id="carouselExample" class="carousel slide">
     <div class="carousel-inner">
       <div class="carousel-item active">
         <img src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg"
@@ -21,8 +23,8 @@
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
-  </div>
-  <ion-grid>
+  </div> -->
+  <ion-grid style="padding: 24px;">
     <ion-row>
       <ion-col [routerLink]="['/main/words']">
         <ion-icon name="stats-chart-outline"></ion-icon>

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import Chart from 'chart.js/auto'
+
 
 @Component({
   selector: 'app-home',
@@ -6,10 +9,47 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
+  @ViewChild('doughnutCanvas') private doughnutCanvas!: ElementRef;
+  doughnutChart: any;
 
   constructor() { }
-
+  ngAfterViewInit() {
+    this.doughnutChartMethod();
+  }
   ngOnInit() {
+  }
+
+  doughnutChartMethod() {
+    this.doughnutChart = new Chart(this.doughnutCanvas.nativeElement, {
+      type: 'doughnut',
+      data: {
+        labels: [ 'Unutmadan Tekrar Et','Öğrenilmiş','Unutulmak Üzere'],
+        datasets: [{
+          label: 'Kelime Sayısı',
+          data: [50, 29, 15],
+          backgroundColor: [
+            'rgba(244, 255, 0, 0.8)',
+            'rgba(0, 255, 32, 0.8)',
+            'rgba(255, 0, 0, 0.8)',
+          ],
+          hoverBackgroundColor: [
+            '#FFCE56',
+            '#FF6384',
+            '#36A2EB',
+          ]
+          
+        }]
+      },
+      options: {
+        plugins: {
+          legend: {
+            labels: {
+              color: 'white', // Set the label text color to white
+            }
+          }
+        }
+      }
+    });
   }
 
 }

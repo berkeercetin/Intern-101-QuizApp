@@ -24,11 +24,26 @@ export class MainPage implements OnInit {
   signOut(){
     this.authService.signOut().then(res=>this._router.navigateByUrl(""))
   }
+ learningregexPattern = /\/main\/word-cards-deck\/learning\/[A-Za-z0-9]+/;
+ learningQuizPattern = /\/main\/word-cards-deck\/quiz\/[A-Za-z0-9]+/;
 
 
   findPageTitle(){
+    if(this.learningregexPattern.test(this._router.url)){
+      return "Öğren"
+
+    }
+    if(this.learningQuizPattern.test(this._router.url)){
+      return "Quiz"
+    }
     if(this._router.url=="/main/home")
       return "Anasayfa"
+      if(this._router.url=="/main/words")
+      return "Analizler"
+      if(this._router.url=="/main/word-cards-subjects/quiz")
+      return "Quizler"
+      if(this._router.url=="/main/word-cards-subjects/learning")
+      return "Öğren"
     if(this._router.url=="/main/word-cards-subjects")
       return "word-cards-subjects"
     if(this._router.url=="/main/word-cards-deck")

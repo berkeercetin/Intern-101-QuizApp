@@ -1,11 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { DeckService } from '../../services/deck.service';
 import { WordService } from '../../services/word.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/modules/auth/services/user.service';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
-import { AlertController, ModalController, ToastController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { AnswerPage } from '../../modals/answer/answer.page';
 
 @Component({
@@ -16,7 +15,6 @@ import { AnswerPage } from '../../modals/answer/answer.page';
 export class WordCardsDeckPage implements OnInit {
 
   @ViewChild('nextButton', { static: true }) nextButton!: ElementRef;
-
   selectedAnswer: any
   words!: any[]
   isFlipped!: boolean[]
@@ -31,7 +29,6 @@ export class WordCardsDeckPage implements OnInit {
     private wordService: WordService,
     public route: ActivatedRoute,
     private router: Router,
-    private toastController:ToastController,
     private userService: UserService,
     private authService: AuthService,
     private modalController: ModalController,
@@ -39,7 +36,6 @@ export class WordCardsDeckPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.route.snapshot.params['type'])
     this.getWords()
   }
 
@@ -49,7 +45,6 @@ export class WordCardsDeckPage implements OnInit {
 
   generateQuestion() {
     this.answers = new Set();
-    console.log("yeni quiz sorusu üretildi")
     this.answers.add(this.words[this.index].turkishWordName)
     for (let i = 0; i < 3; i++) {
       let randomIndex = Math.floor(Math.random() * this.words.length);
@@ -60,15 +55,10 @@ export class WordCardsDeckPage implements OnInit {
   }
 
   checkAnswer() {
-    console.log(this.words[this.index].wordName)
     if (this.selectedAnswer == this.words[this.index].turkishWordName) {
-      console.log("Doğru Cevap için modal üretildi")
-      console.log(this.words[this.index].wordName + "Kelimesi modala yollandı.")
       this.presentModal(true, this.words[this.index])
     }
     else {
-      console.log("Yanlış Cevap için modal üretildi")
-      console.log(this.words[this.index].wordName + "Kelimesi modala yollandı.")
       this.presentModal(false, this.words[this.index])
     }
   }
@@ -116,9 +106,6 @@ export class WordCardsDeckPage implements OnInit {
       if (this.type == "quiz") {
         this.generateQuestion()
       }
-      if (res.length == 0)
-        //this.router.navigateByUrl("/main/home")
-        this.words = res
     })
   }
 

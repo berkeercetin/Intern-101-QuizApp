@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { UserProfile } from '@angular/fire/auth';
-import { CollectionReference,updateDoc, DocumentReference, Firestore, addDoc, collection, doc, getDoc, query, setDoc, where } from '@angular/fire/firestore';
+import { CollectionReference,updateDoc,collectionData , DocumentReference, Firestore, addDoc, collection, doc, getDoc, query, setDoc, where } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -35,16 +35,19 @@ export class UserService {
   }
 
   async checkLearningDeck(deckID:any,uid:any){
-
     const docRef = doc(this.firestore, "/users/"+ uid +"/startedDecks/"+deckID);
     const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           return false
         } else {
-          // docSnap.data() will be undefined in this case
           return true          
         }
 
+  }
+
+  getStartedDecks(uid:any){
+    const categoryCollection=collection(this.firestore,"/users/"+ uid +"/startedDecks/")
+    return collectionData(categoryCollection)  as Observable<any>;
   }
 
  addLearningWord(wordID:any,uid:any){
