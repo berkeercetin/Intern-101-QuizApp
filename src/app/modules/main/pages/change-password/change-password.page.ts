@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController, LoadingController } from '@ionic/angular';
+import { LoadingController } from '@ionic/angular';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
 
 @Component({
@@ -13,14 +13,12 @@ export class ChangePasswordPage implements OnInit {
 
   ionicForm!:FormGroup
   isSubmitted = false;
-  password: string | any;
-  repeatPassword: string | any;
+  password!: string;
+  repeatPassword!: string
   
-  constructor(private router: Router,private auth:AuthService,private alertController:AlertController,private loadingController:LoadingController) { }
+  constructor(private router: Router,private auth:AuthService,private loadingController:LoadingController) { }
   
-  get errorControl() {
-    return this.ionicForm.controls;
-  }
+  get errorControl() { return this.ionicForm.controls;}
 
   ngOnInit() {
     this.ionicForm = new FormGroup({
@@ -34,7 +32,6 @@ export class ChangePasswordPage implements OnInit {
 
   submitForm() {
     this.isSubmitted = true;
-    
     if (this.ionicForm.valid ) {
       console.log(this.ionicForm.value)
       this.loadingController.create({message:'Şifre Sıfırlanıyor', spinner:'crescent', animated:true})
@@ -45,9 +42,8 @@ export class ChangePasswordPage implements OnInit {
       .finally(() => { this.loadingController.dismiss(); });
     }
   }
-
-
 }
+
 function MustMatch(controlName: string, matchingControlName: string) {
   return (formGroup: FormGroup) => {
     const control = formGroup.controls[controlName];

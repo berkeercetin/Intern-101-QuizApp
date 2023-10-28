@@ -1,8 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Auth,GoogleAuthProvider,updatePassword, UserCredential, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup } from '@angular/fire/auth';
-import { Firestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-//import { getAuth, updatePassword } from "firebase/auth";
 
 @Injectable({
   providedIn: 'root'
@@ -23,12 +21,10 @@ export class AuthService {
     return await signInWithPopup(this.auth, new GoogleAuthProvider())
   }
 
-  async updatePassword(oldPassword:any,newPassword:any){
+  async updatePassword(oldPassword:string,newPassword:string){
     signInWithEmailAndPassword(this.auth, this.auth.currentUser!.email!.trim(), oldPassword.trim()).then(()=>{
       return updatePassword(this.auth.currentUser!, newPassword)
-
     })
-    
   }
   
   signup(email: string, password: string): Promise<UserCredential> {
@@ -38,15 +34,17 @@ export class AuthService {
       password.trim()
     );
   }
+
    login(email: string, password: string): Promise<UserCredential> {
-
-
     return signInWithEmailAndPassword(this.auth, email, password);
     }
+
 
     sendResetPasswordEmail(email:string){
       return sendPasswordResetEmail(this.auth,email)
     }
+
+    
     signOut(){
       return this.auth.signOut()
     }

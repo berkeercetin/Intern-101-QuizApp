@@ -10,11 +10,9 @@ export class TermsPage implements OnInit {
   @Input() termName: string | undefined;
   @Input() termText: string | undefined;
 
-  constructor(  private modalController: ModalController,) { }
+  constructor(private modalController: ModalController) { }
 
-  ngOnInit() {
-  }
-  async dismiss() {
-    this.modalController.dismiss();
-  }
+  ngOnInit() {}
+
+  async dismiss() {this.modalController.dismiss();}
 }

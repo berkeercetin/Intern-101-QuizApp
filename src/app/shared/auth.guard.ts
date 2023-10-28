@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
@@ -15,6 +16,7 @@ export class AuthGuard {
   constructor(public authService: AuthService, public router: Router) {}
   canActivate(
     next: ActivatedRouteSnapshot,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | UrlTree | boolean {
     if (!this.authService.isLogged()) {

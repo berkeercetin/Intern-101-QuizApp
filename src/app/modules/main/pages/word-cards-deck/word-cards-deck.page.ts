@@ -47,7 +47,7 @@ export class WordCardsDeckPage implements OnInit {
     this.answers = new Set();
     this.answers.add(this.words[this.index].turkishWordName)
     for (let i = 0; i < 3; i++) {
-      let randomIndex = Math.floor(Math.random() * this.words.length);
+      const randomIndex = Math.floor(Math.random() * this.words.length);
       if (!this.answers.has(this.words[randomIndex].turkishWordName)) {
         this.answers.add(this.words[randomIndex].turkishWordName)
       }
@@ -121,7 +121,7 @@ export class WordCardsDeckPage implements OnInit {
       },
     });
     modal.onDidDismiss()
-      .then( (data) => {
+      .then( () => {
         console.log("modal kapandı")
       this.nextButton.nativeElement.click();
       });

@@ -2,7 +2,6 @@
   <ion-accordion-group style="padding: 12px;">
     <ion-accordion *ngFor="let category of categories; let i = index" value="{{i}}">
       <ion-item slot="header">
-
         <ion-toolbar>
           <ion-buttons slot="start">
               <ion-icon name="{{category.iconName}}"></ion-icon>
@@ -24,7 +23,6 @@
                 <ion-card-content>
                   <ion-icon name="car-sport-outline"></ion-icon>
                 </ion-card-content>
-
                 <ion-button (click)="startDeck(deck.deckID)" color="success" fill="outline"
                   class="card-button">Start</ion-button>
               </ion-card>

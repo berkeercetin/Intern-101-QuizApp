@@ -25,7 +25,7 @@ export class LandingPage implements OnInit {
   google(){
     this.auth.byGoogle().then(res=>{
       this.userService.addUserProfile(JSON.parse(JSON.stringify(res.user)),res.user.uid)?.then(
-        res=>this.router.navigateByUrl("/main/home")
+        ()=>this.router.navigateByUrl("/main/home")
       ).catch(err=>console.log(err))
     }).catch(err=>console.log("err google"+err))
   }

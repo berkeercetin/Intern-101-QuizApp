@@ -10,13 +10,10 @@ export class AnswerPage implements OnInit {
   @Input() status!: boolean ;
   @Input() word: any ;
 
-  constructor(  private modalController: ModalController,) { }
+  constructor(private modalController: ModalController) { }
 
-  ngOnInit() {
-    console.log(this.word)
-  }
-  async dismiss() {
-    this.modalController.dismiss();
-  }
+  ngOnInit() {console.log(this.word)}
+  
+  async dismiss() {this.modalController.dismiss();}
 
 }

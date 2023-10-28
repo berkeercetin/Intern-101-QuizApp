@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { AlertController, LoadingController } from '@ionic/angular';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-forgot-password',
@@ -10,17 +10,14 @@ import { AlertController, LoadingController } from '@ionic/angular';
   styleUrls: ['./forgot-password.page.scss'],
 })
 export class ForgotPasswordPage implements OnInit {
-
   ionicForm!:FormGroup
   isSubmitted = false;
-  password: string | any;
-  repeatPassword: string | any;
+  password!: string
+  repeatPassword!: string
   
-  constructor(private router: Router,private auth:AuthService,private alertController:AlertController,private loadingController:LoadingController) { }
+  constructor(private router: Router,private auth:AuthService,private loadingController:LoadingController) { }
   
-  get errorControl() {
-    return this.ionicForm.controls;
-  }
+  get errorControl() {return this.ionicForm.controls;}
 
   ngOnInit() {
     this.ionicForm = new FormGroup({
@@ -30,7 +27,6 @@ export class ForgotPasswordPage implements OnInit {
 
   submitForm() {
     this.isSubmitted = true;
-    
     if (this.ionicForm.valid ) {
       console.log(this.ionicForm.value)
       this.loadingController.create({message:'E posta yollanıyor..', spinner:'crescent', animated:true})
@@ -41,5 +37,4 @@ export class ForgotPasswordPage implements OnInit {
       .finally(() => { this.loadingController.dismiss(); });
     }
   }
-
 }
