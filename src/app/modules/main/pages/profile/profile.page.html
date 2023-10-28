@@ -1,13 +1,27 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>profile</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content>
+  <ion-card>
+    <ion-card-content>
+      <div class="person-information">
+        <ion-avatar>
+          <img alt="Silhouette of a person's head" [src]="userData?.photoURL" />
+        </ion-avatar>
+        <div class="contact-information">
+          <h1>{{userData?.displayName}}</h1>
+          <h6>{{userData?.email}}</h6>
+          <h6>{{userData?.phoneNumber}}</h6>
+        </div>
+      </div>
+      <ion-button mode="ios" fill="outline" expand="block">ADDITIONAL PROFILE DATA</ion-button>
+  
+      <ion-list>
+        <ion-item *ngFor="let option of options" detail="true" [routerLink] ="option.href">
+          <ion-icon [name]="option.icon.name" [ngStyle]="{'color':option.icon.color}"   slot="start"></ion-icon>
+          <ion-label>{{option.name}}</ion-label>
+        </ion-item>
+    
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">profile</ion-title>
-    </ion-toolbar>
-  </ion-header>
+
 </ion-content>
