@@ -44,14 +44,14 @@ export class WordCardsDeckPage implements OnInit {
   }
 
   generateQuestion() {
-    this.answers = new Set();
-    this.answers.add(this.words[this.index].turkishWordName)
-    for (let i = 0; i < 3; i++) {
-      const randomIndex = Math.floor(Math.random() * this.words.length);
-      if (!this.answers.has(this.words[randomIndex].turkishWordName)) {
-        this.answers.add(this.words[randomIndex].turkishWordName)
-      }
-    }
+     this.answers = new Set()
+     this.answers.add(this.words[this.index].turkishWordName)
+     for (let i = 0; i < 3; i++) {
+       const randomIndex = Math.floor(Math.random() * this.words.length);
+       if (!this.answers.has(this.words[randomIndex].turkishWordName)) {
+         this.answers.add(this.words[randomIndex].turkishWordName)
+       }
+     }
   }
 
   checkAnswer() {

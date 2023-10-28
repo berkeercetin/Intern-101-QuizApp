@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import Chart from 'chart.js/auto'
+import { WordService } from '../../services/word.service';
 
 
 @Component({
@@ -12,11 +13,15 @@ export class HomePage implements OnInit {
   @ViewChild('doughnutCanvas') private doughnutCanvas!: ElementRef;
   doughnutChart: any;
 
-  constructor() { }
+  constructor(private word:WordService) { }
   ngAfterViewInit() {
     this.doughnutChartMethod();
   }
   ngOnInit() {
+  }
+
+  addDataButton(){
+    this.word.addWord().then(res=>console.log(res)).catch(err=>console.log(err))
   }
 
   doughnutChartMethod() {
