@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Auth,GoogleAuthProvider,updatePassword, UserCredential, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup } from '@angular/fire/auth';
+import { Auth, GoogleAuthProvider,updatePassword, UserCredential, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -15,6 +15,10 @@ export class AuthService {
     return this.auth.currentUser.uid
 
     return false
+  }
+
+  createPasswordResetLink(email: string) {
+    return sendPasswordResetEmail(this.auth,email, { url: ' ' });
   }
 
   async byGoogle(): Promise<UserCredential> {

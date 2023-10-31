@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../../services/category.service';
-import { Observable, Subject, Subscription, toArray } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { DeckService } from '../../services/deck.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/modules/auth/services/user.service';
@@ -27,6 +27,10 @@ export class WordCardsSubjectsPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    
+  }
+
+  ionViewWillEnter() {
     this.fetchCategories()
     this.getDecks()
   }
@@ -50,7 +54,7 @@ export class WordCardsSubjectsPage implements OnInit {
     this.router.navigateByUrl("/main/word-cards-deck/" + this.route.snapshot.params['type'] + "/" + deckID)
   }
 
-  ngOnDestroy() {
+  ionViewDidLeave() {
     this.subsCategory.unsubscribe()
     this.subsCategory.unsubscribe()
   }

@@ -19,6 +19,8 @@ export class ForgotPasswordPage implements OnInit {
   
   get errorControl() {return this.ionicForm.controls;}
 
+  
+
   ngOnInit() {
     this.ionicForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]),
@@ -31,10 +33,11 @@ export class ForgotPasswordPage implements OnInit {
       console.log(this.ionicForm.value)
       this.loadingController.create({message:'E posta yollanıyor..', spinner:'crescent', animated:true})
       .then(res => res.present());
-      this.auth.sendResetPasswordEmail(this.ionicForm.value.email)
-      .then(res => {console.log("basarılı:"+res);this.router.navigateByUrl('/login');})
-      .catch(err=>console.log(err))
-      .finally(() => { this.loadingController.dismiss(); });
+       this.auth.sendResetPasswordEmail(this.ionicForm.value.email)
+       .then(res => {console.log("basarılı:"+res);this.router.navigateByUrl('/login');})
+       .catch(err=>console.log(err))
+       .finally(() => { this.loadingController.dismiss(); });
+    //  this.auth.createPasswordResetLink(this.ionicForm.value.email).finally(() => { this.loadingController.dismiss(); });
     }
   }
 }
