@@ -1,5 +1,5 @@
 <ion-content [fullscreen]="true">
-  <div id="carouselExample" class="carousel slide">
+  <div  id="carouselExample" class="carousel slide">
     <div class="carousel-inner">
       <ng-container *ngIf="this.route.snapshot.params['type']=='learning'">
         <div *ngFor="let word of words; let i = index " [ngClass]="{'carousel-item': true, 'active': i === 0}">

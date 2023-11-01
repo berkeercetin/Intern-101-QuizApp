@@ -128,6 +128,7 @@ export class WordCardsDeckPage implements OnInit {
     });
     modal.onDidDismiss()
       .then( () => {
+        console.log('Modal dismissed');
       this.nextButton.nativeElement.click();
       });
     return await modal.present();

@@ -1,4 +1,4 @@
-<ion-content [fullscreen]="true">
+<ion-content *ngIf="categories" [fullscreen]="true">
   <ion-accordion-group style="padding: 12px;">
     <ion-accordion *ngFor="let category of categories; let i = index" value="{{i}}">
       <ion-item slot="header">

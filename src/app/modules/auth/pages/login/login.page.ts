@@ -11,14 +11,14 @@ import { FirebaseErrors } from 'src/app/shared/firebaseError.handler';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
- ionicForm!:FormGroup
+ ionicForm?:FormGroup
  isSubmitted = false;
  password: string | any;
  repeatPassword: string | any;
  isChecked: boolean | undefined;
   constructor(private router: Router,private auth:AuthService,private alertController:AlertController,private loadingController:LoadingController) { }
   
-  get errorControl() {return this.ionicForm.controls;}
+  get errorControl() {return this.ionicForm?.controls;}
   
   ngOnInit() {}
 
@@ -31,9 +31,10 @@ export class LoginPage implements OnInit {
   
   async submitForm() {
     const spinner = (await this.loadingController.create({message: 'Giriş Yapılıyor...', spinner: 'crescent'}));
+    console.log(this.ionicForm?.value)
     spinner.present();
     this.isSubmitted = true;
-    if (this.ionicForm.valid) {
+    if (this.ionicForm?.valid) {
       console.log(this.ionicForm.value)
       await this.auth.login(this.ionicForm.value.email, this.ionicForm.value.password)
       .then(res =>  { console.log(res);this.router.navigateByUrl('/main/home'); spinner.dismiss();})
@@ -45,7 +46,7 @@ export class LoginPage implements OnInit {
             message: errorObject.message,
             buttons:[{role:'cancel',text:'Tamam'}]})).present();
        })
-      .finally(() => {  });
+      .finally(() => { this.loadingController.dismiss(); });
     }
     else{spinner.dismiss();}
   }
