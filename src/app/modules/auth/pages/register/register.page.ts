@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { FormGroup, FormBuilder, Validators, CheckboxRequiredValidator, FormControl } from '@angular/forms';
 import { UserService } from '../../services/user.service';
+import { FirebaseErrors } from 'src/app/shared/firebaseError.handler';
 
 
 @Component({
@@ -32,7 +33,9 @@ export class RegisterPage implements OnInit {
     private userService:UserService
     ) { }
     
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewWillEnter(){
     this.ionicForm = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(2)]),
       email: new FormControl('', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]),
@@ -42,6 +45,7 @@ export class RegisterPage implements OnInit {
       validators: MustMatch('password', 'confirmPassword') as any
     });
   }
+  
   submitForm() {
     this.isSubmitted = true;
     console.log(this.ionicForm.value)
@@ -51,18 +55,14 @@ export class RegisterPage implements OnInit {
       this.authService.signup(this.ionicForm.value.email, this.ionicForm.value.password)
       .then(res =>
         this.userService.addUserProfile(this.ionicForm.value,res.user.uid)?.then(res=>this.router.navigateByUrl('/main/home'))        )
-      .catch(err => {
+      .catch(async err => {
         console.log(err)
-        if(err.code === 'auth/email-already-in-use'){
-          this.alertController.create({
-            header: 'E-posta Kullanımda',
-            message:'Bu email zaten kullanılıyor. Eğer parolanızı unuttuysanız Parolamı Unuttum sayfasını ziyaret edebilirsiniz.',
-            buttons: [
-              {text: 'Parolamı Unuttum', handler:()=> this.router.navigateByUrl('/authentication/forgot-password')},
-              {text: 'Tamam', role:'cancel'}
-            ]
-          }).then(res => res.present());
-        }
+          const errorObject = FirebaseErrors.Parse(err.code); 
+            (await this.alertController.create({
+              header: errorObject.header,
+              backdropDismiss:true,
+              message: errorObject.message,
+              buttons:[{role:'cancel',text:'Tamam'}]})).present();
       })
       .finally(() => { this.loadingController.dismiss(); });
     }

@@ -22,7 +22,9 @@ export class SetNewPasswordPage implements OnInit {
   
   get errorControl() { return this.ionicForm.controls;}
 
-  ngOnInit() {
+  ngOnInit() { }
+  
+  ionViewWillEnter(){
     this.ionicForm = new FormGroup({
       newPassword: new FormControl('', [Validators.required, Validators.minLength(6)]),
       repeat: new FormControl('', Validators.required),

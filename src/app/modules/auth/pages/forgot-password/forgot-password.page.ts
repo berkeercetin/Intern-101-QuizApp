@@ -20,7 +20,9 @@ export class ForgotPasswordPage implements OnInit {
   mode = this.route.snapshot.queryParams['mode'];
   code = this.route.snapshot.queryParams['oobCode'];
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewWillEnter() {
     this.ionicForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]),
     })
@@ -32,17 +34,12 @@ export class ForgotPasswordPage implements OnInit {
       console.log(this.ionicForm.value)
       this.loadingController.create({message:'E posta yollanıyor..', spinner:'crescent', animated:true})
       .then(res => res.present());
-      //  this.auth.sendResetPasswordEmail(this.ionicForm.value.email)
-      //  .then(res => {console.log("basarılı:"+res);this.router.navigateByUrl('/login');})
-      //  .catch(err=>console.log(err))
-      //  .finally(() => { this.loadingController.dismiss(); });
-      this.auth.resetPasswordInit(this.ionicForm.value.email) 
+       this.auth.resetPasswordInit(this.ionicForm.value.email) 
       .then(
         () => alert('A password reset link has been sent to your email address'), 
         (rejectionReason) => alert(rejectionReason)) 
       .catch(e => alert('An error occurred while attempting to reset your password'+e))
       .finally(() => { this.loadingController.dismiss(); }); 
-    //  this.auth.createPasswordResetLink(this.ionicForm.value.email).finally(() => { this.loadingController.dismiss(); });
     }
   }
 }
