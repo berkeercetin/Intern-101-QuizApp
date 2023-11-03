@@ -11,7 +11,7 @@
           <h6>{{userData?.phoneNumber}}</h6>
         </div>
       </div>
-      <ion-button mode="ios" fill="outline" expand="block">ADDITIONAL PROFILE DATA</ion-button>
+      <ion-button mode="ios" fill="outline" expand="block" (click)="openProfileUpdate()">ADDITIONAL PROFILE DATA</ion-button>
   
       <ion-list>
         <ion-item *ngFor="let option of options" detail="true" [routerLink] ="option.href">

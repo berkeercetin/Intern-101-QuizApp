@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Auth } from '@angular/fire/auth';
+import { Auth, user } from '@angular/fire/auth';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -11,6 +11,7 @@ export class GlobalService {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public userSubject = new BehaviorSubject<any>(null);
   public userSubscription = this.userSubject.asObservable()
+  public _users = user(this.auth);
   constructor() {
     this.trackUsers();
   }
