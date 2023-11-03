@@ -1,5 +1,5 @@
 <ion-content [fullscreen]="true">
-  <div id="carouselExample" class="carousel slide">
+  <div  id="carouselExample" class="carousel slide">
     <div class="carousel-inner">
       <ng-container *ngIf="this.route.snapshot.params['type']=='learning'">
         <div *ngFor="let word of words; let i = index " [ngClass]="{'carousel-item': true, 'active': i === 0}">
@@ -38,18 +38,18 @@
           </div>
         </div>
       </ng-container>
-      <ng-container *ngIf="this.route.snapshot.params['type']=='quiz'">
-        <div *ngFor="let word of words; let i = index " [ngClass]="{'carousel-item': true, 'active': i === 0}">
+      <ng-container *ngIf="this.route.snapshot.params['type']=='quiz' && questionLoading">
+        <div *ngFor="let question of questions; let i = index " [ngClass]="{'carousel-item': true, 'active': i === 0}">
           <div class="card-container">
             <ion-card>
               <ion-card-header>
-                <ion-card-subtitle>{{word.wordName}} kelimesinin Türkçe karşılığı aşağıdakilerden hangisidr
+                <ion-card-subtitle>{{question.word?.wordName}} kelimesinin Türkçe karşılığı aşağıdakilerden hangisidir 
                   ?</ion-card-subtitle>
               </ion-card-header>
               <ion-card-content>
                 <ion-grid>
                   <ion-radio-group [(ngModel)]="selectedAnswer" >
-                    <div *ngFor="let answer of answers ">
+                    <div *ngFor="let answer of question.answers ">
                       <ion-row>
                         <ion-col size="12">
                           <ion-radio  [value]="answer">{{ answer }}</ion-radio>

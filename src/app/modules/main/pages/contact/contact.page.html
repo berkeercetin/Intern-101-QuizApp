@@ -1,4 +1,4 @@
-<ion-content [fullscreen]="true">
+<ion-content [formGroup]="ionicForm" [fullscreen]="true">
   <form style="padding: 12px;" [formGroup]="ionicForm">
       <ion-item lines="full"><ion-input formControlName="name"   class="custom" placeholder="Konu"></ion-input></ion-item>
       <!-- <span class="error ion-padding" *ngIf="isSubmitted && errorControl.name.errors?.required"> İsim girmek zorunludur. </span>

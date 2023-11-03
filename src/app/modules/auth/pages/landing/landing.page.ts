@@ -12,15 +12,14 @@ export class LandingPage implements OnInit {
 
   constructor(private router:Router,private auth:AuthService,private userService:UserService) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
+
   login(){
     this.router.navigateByUrl("login")
   }
   register(){
     this.router.navigateByUrl("register")
   }
-
   
   google(){
     this.auth.byGoogle().then(res=>{

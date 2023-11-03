@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { LoadingController } from '@ionic/angular';
 
@@ -15,11 +15,14 @@ export class ForgotPasswordPage implements OnInit {
   password!: string
   repeatPassword!: string
   
-  constructor(private router: Router,private auth:AuthService,private loadingController:LoadingController) { }
+  constructor(private router: Router,private auth:AuthService,private loadingController:LoadingController,private route:ActivatedRoute) { }
   
-  get errorControl() {return this.ionicForm.controls;}
+  mode = this.route.snapshot.queryParams['mode'];
+  code = this.route.snapshot.queryParams['oobCode'];
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  ionViewWillEnter() {
     this.ionicForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$')]),
     })
@@ -31,10 +34,12 @@ export class ForgotPasswordPage implements OnInit {
       console.log(this.ionicForm.value)
       this.loadingController.create({message:'E posta yollanıyor..', spinner:'crescent', animated:true})
       .then(res => res.present());
-      this.auth.sendResetPasswordEmail(this.ionicForm.value.email)
-      .then(res => {console.log("basarılı:"+res);this.router.navigateByUrl('/login');})
-      .catch(err=>console.log(err))
-      .finally(() => { this.loadingController.dismiss(); });
+       this.auth.resetPasswordInit(this.ionicForm.value.email) 
+      .then(
+        () => alert('A password reset link has been sent to your email address'), 
+        (rejectionReason) => alert(rejectionReason)) 
+      .catch(e => alert('An error occurred while attempting to reset your password'+e))
+      .finally(() => { this.loadingController.dismiss(); }); 
     }
   }
 }

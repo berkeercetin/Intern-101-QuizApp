@@ -6,6 +6,8 @@ import { UserService } from 'src/app/modules/auth/services/user.service';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
 import { AlertController, ModalController } from '@ionic/angular';
 import { AnswerPage } from '../../modals/answer/answer.page';
+import { QuestionModel } from '../../models/Question.model';
+import { WordModel } from '../../models/wordModel';
 
 @Component({
   selector: 'app-word-cards-deck',
@@ -15,16 +17,14 @@ import { AnswerPage } from '../../modals/answer/answer.page';
 export class WordCardsDeckPage implements OnInit {
 
   @ViewChild('nextButton', { static: true }) nextButton!: ElementRef;
-  selectedAnswer: any
-  words!: any[]
+  selectedAnswer?: string
+  words!: WordModel[]
   isFlipped!: boolean[]
   subs: Subscription = new Subscription();
-  index: any = 0
-  question: any;
-  answers: Set<string> = new Set();
+  index: number = 0
   type = this.route.snapshot.params['type']
-
-
+  questions:QuestionModel[]=[]
+  questionLoading:boolean=false
   constructor(
     private wordService: WordService,
     public route: ActivatedRoute,
@@ -34,24 +34,15 @@ export class WordCardsDeckPage implements OnInit {
     private modalController: ModalController,
     private alertController:AlertController
   ) { }
-
-  ngOnInit() {
+    ngOnInit() {
+      
+    }
+  ionViewWillEnter() {
     this.getWords()
   }
 
   flipCard(index: number) {
     this.isFlipped[index] = !this.isFlipped[index];
-  }
-
-  generateQuestion() {
-    this.answers = new Set();
-    this.answers.add(this.words[this.index].turkishWordName)
-    for (let i = 0; i < 3; i++) {
-      const randomIndex = Math.floor(Math.random() * this.words.length);
-      if (!this.answers.has(this.words[randomIndex].turkishWordName)) {
-        this.answers.add(this.words[randomIndex].turkishWordName)
-      }
-    }
   }
 
   checkAnswer() {
@@ -72,15 +63,10 @@ export class WordCardsDeckPage implements OnInit {
   }
 
   async nextCard() {
-    console.log("next card " +this.index)
     this.userService.updateDeck(this.route.snapshot.params['deckID'], this.authService.isLogged(),this.index,this.type)
     if (this.type == "learning") {
       if (await this.userService.checkLearningWord(this.words[this.index].wordID, this.authService.isLogged())) {
         this.userService.addLearningWord(this.words[this.index].wordID, this.authService.isLogged())
-      }
-      if (this.type == "quiz") {
-        console.log("next card " +"quiz ")
-        this.generateQuestion()
       }
     }
     if (this.index == this.words.length - 1) {
@@ -98,18 +84,38 @@ export class WordCardsDeckPage implements OnInit {
       this.index--
   }
 
-  getWords() {
+  async getWords() {
     this.subs = this.wordService.listWordsbyDeck(this.route.snapshot.params['deckID']).subscribe(res => {
-      console.log(res)
       this.isFlipped = new Array(res.length).fill(false);
       this.words = res
       if (this.type == "quiz") {
-        this.generateQuestion()
+        this.words.forEach(word => {
+          const answers = new Set()
+          answers.add(word.turkishWordName)
+          let count = 0
+          while (count < 3) {
+            const randomIndex = Math.floor(Math.random() * this.words.length)
+            const randomWord = this.words[randomIndex].turkishWordName
+            if (!answers.has(randomWord)) {
+              answers.add(randomWord)
+              count++
+            }
+          }
+          const shuffledAnswers = Array.from(answers).sort(() => Math.random() - 0.5)
+          this.questions.push(new QuestionModel({
+            word: word,
+            answers: new Set(shuffledAnswers),
+            correctAnswer: word.turkishWordName,
+            title: word.wordName + 'Kelimesinin Türkçe karşılığı aşağıdakilerden hangisidir ?'
+          }))
+        })
+        this.questionLoading = true
+        console.log(this.questions)
       }
     })
   }
 
-  async presentModal(status: any, word: any) {
+  async presentModal(status: boolean, word: WordModel) {
     const modal = await this.modalController.create({
       component: AnswerPage,
       backdropDismiss: false,
@@ -122,13 +128,13 @@ export class WordCardsDeckPage implements OnInit {
     });
     modal.onDidDismiss()
       .then( () => {
-        console.log("modal kapandı")
+        console.log('Modal dismissed');
       this.nextButton.nativeElement.click();
       });
     return await modal.present();
   }
 
-  ngOnDestroy() {
+  ionViewDidLeave() {
     this.subs.unsubscribe()
   }
 }

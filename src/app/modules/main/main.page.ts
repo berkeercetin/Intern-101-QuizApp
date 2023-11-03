@@ -22,7 +22,7 @@ export class MainPage implements OnInit {
     return true
   }
   signOut(){
-    this.authService.signOut().then(res=>this._router.navigateByUrl(""))
+    this.authService.signOut().then(()=>this._router.navigateByUrl(""))
   }
  learningregexPattern = /\/main\/word-cards-deck\/learning\/[A-Za-z0-9]+/;
  learningQuizPattern = /\/main\/word-cards-deck\/quiz\/[A-Za-z0-9]+/;

@@ -24,7 +24,11 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: () => import('./pages/landing/landing.module').then( m => m.LandingPageModule)
-      }
+      } ,
+       {
+    path: 'set-new-password',
+    loadChildren: () => import('./pages/set-new-password/set-new-password.module').then( m => m.SetNewPasswordPageModule)
+  },
 
      ]
    },
@@ -32,6 +36,7 @@ const routes: Routes = [
     path: 'terms',
     loadChildren: () => import('./modals/terms/terms.module').then( m => m.TermsPageModule)
   },
+
 
  
 ];

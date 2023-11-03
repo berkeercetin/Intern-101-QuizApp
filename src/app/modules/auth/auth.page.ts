@@ -12,12 +12,12 @@ export class AuthPage implements OnInit {
 
   constructor(private _location: Location,public _router:Router,private auth:AuthService) { }
 
-  ngOnInit() {
-    if (this.auth.isLogged()){
-      this._router.navigateByUrl('/main/home')
-    }
-    
-  }
+  ngOnInit() {}
+
+  ionViewWillEnter(){ if (this.auth.isLogged()){
+    this._router.navigateByUrl('/main/home')
+  }}
+
   back(){
     this._location.back();
   }
