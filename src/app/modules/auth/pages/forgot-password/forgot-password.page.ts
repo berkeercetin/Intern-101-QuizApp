@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-forgot-password',
@@ -15,7 +15,7 @@ export class ForgotPasswordPage implements OnInit {
   password!: string
   repeatPassword!: string
   
-  constructor(private router: Router,private auth:AuthService,private loadingController:LoadingController,private route:ActivatedRoute) { }
+  constructor(private router: Router,private auth:AuthService,private loadingController:LoadingController,private route:ActivatedRoute,private alertController:AlertController) { }
   
   mode = this.route.snapshot.queryParams['mode'];
   code = this.route.snapshot.queryParams['oobCode'];
@@ -40,6 +40,8 @@ export class ForgotPasswordPage implements OnInit {
         (rejectionReason) => alert(rejectionReason)) 
       .catch(e => alert('An error occurred while attempting to reset your password'+e))
       .finally(() => { this.loadingController.dismiss(); }); 
+    }else{
+      this.alertController.create({message:'Email giriniz.',buttons:['Tamam']}).then(res=>res.present())
     }
   }
 }

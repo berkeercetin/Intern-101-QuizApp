@@ -13,9 +13,9 @@ import { FirebaseErrors } from 'src/app/shared/firebaseError.handler';
 export class LoginPage implements OnInit {
  ionicForm?:FormGroup
  isSubmitted = false;
- password: string | any;
- repeatPassword: string | any;
- isChecked: boolean | undefined;
+ password?: string;
+ repeatPassword?: string
+isChecked: boolean | undefined;
   constructor(private router: Router,private auth:AuthService,private alertController:AlertController,private loadingController:LoadingController) { }
   
   get errorControl() {return this.ionicForm?.controls;}
@@ -47,8 +47,9 @@ export class LoginPage implements OnInit {
             buttons:[{role:'cancel',text:'Tamam'}]})).present();
        })
       .finally(() => { this.loadingController.dismiss(); });
+    }else{
+      spinner.dismiss();
     }
-    else{spinner.dismiss();}
   }
 
   

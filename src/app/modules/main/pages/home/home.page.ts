@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { ElementRef, ViewChild } from '@angular/core';
 import Chart from 'chart.js/auto'
 import { WordService } from '../../services/word.service';
 
@@ -11,6 +11,7 @@ import { WordService } from '../../services/word.service';
 })
 export class HomePage implements OnInit {
   @ViewChild('doughnutCanvas') private doughnutCanvas!: ElementRef;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   doughnutChart: any;
 
   constructor(private word:WordService) { }

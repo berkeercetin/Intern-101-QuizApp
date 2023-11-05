@@ -5,6 +5,8 @@ import { DeckService } from '../../services/deck.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from 'src/app/modules/auth/services/user.service';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
+import { CategoryModel } from '../../models/category.model';
+import { DeckModel } from '../../models/deck.model';
 
 @Component({
   selector: 'app-word-cards-subjects',
@@ -12,8 +14,8 @@ import { AuthService } from 'src/app/modules/auth/services/auth.service';
   styleUrls: ['./word-cards-subjects.page.scss'],
 })
 export class WordCardsSubjectsPage implements OnInit {
-  categories: any
-  decks!: any[]
+  categories?: CategoryModel[]
+  decks!: DeckModel[]
   subsCategory: Subscription = new Subscription();
   subsDeck: Subscription = new Subscription();
   
@@ -44,19 +46,19 @@ export class WordCardsSubjectsPage implements OnInit {
   }
 
   filterDecks(categoryID: string,) {
-    return this.decks.filter((deck: any) => deck.categoryID == categoryID)
+    return this.decks.filter((deck: DeckModel) => deck.categoryID == categoryID)
   }
 
   async startDeck(deckID: string) {
-    if (await this.userService.checkLearningDeck(deckID, this.authService.isLogged())) {
-      this.userService.addLearningDeck(deckID, this.authService.isLogged())
+    if (await this.userService.checkLearningDeck(deckID, this.authService.isLogged() || "")) {
+      this.userService.addLearningDeck(deckID, this.authService.isLogged() ||"")
     }
     this.router.navigateByUrl("/main/word-cards-deck/" + this.route.snapshot.params['type'] + "/" + deckID)
   }
 
   ionViewDidLeave() {
     this.subsCategory.unsubscribe()
-    this.subsCategory.unsubscribe()
+    this.subsDeck.unsubscribe()
   }
 
 

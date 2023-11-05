@@ -3,7 +3,7 @@ import { AlertController, LoadingController, ModalController } from '@ionic/angu
 import { TermsPage } from '../../modals/terms/terms.page';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { FormGroup, FormBuilder, Validators, CheckboxRequiredValidator, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { FirebaseErrors } from 'src/app/shared/firebaseError.handler';
 
@@ -16,8 +16,8 @@ import { FirebaseErrors } from 'src/app/shared/firebaseError.handler';
 export class RegisterPage implements OnInit {
   ionicForm!: FormGroup ;
   isSubmitted = false;
-  password: string | any;
-  repeatPassword: string | any;
+  password?: string 
+  repeatPassword?: string 
   isChecked: boolean | undefined;
 
   get errorControl() {
@@ -54,7 +54,7 @@ export class RegisterPage implements OnInit {
       .then(res => res.present());
       this.authService.signup(this.ionicForm.value.email, this.ionicForm.value.password)
       .then(res =>
-        this.userService.addUserProfile(this.ionicForm.value,res.user.uid)?.then(res=>this.router.navigateByUrl('/main/home'))        )
+        this.userService.addUserProfile(this.ionicForm.value,res.user.uid)?.then(()=>this.router.navigateByUrl('/main/home'))        )
       .catch(async err => {
         console.log(err)
           const errorObject = FirebaseErrors.Parse(err.code); 
@@ -65,6 +65,21 @@ export class RegisterPage implements OnInit {
               buttons:[{role:'cancel',text:'Tamam'}]})).present();
       })
       .finally(() => { this.loadingController.dismiss(); });
+    }
+    else{
+      if(!this.isChecked){
+        (this.alertController.create({
+          header: 'Hata',
+          backdropDismiss:true,
+          message: 'Kullanım koşullarını kabul etmelisiniz',
+          buttons:[{role:'cancel',text:'Tamam'}]})).then(res=>res.present());
+      }else{
+        (this.alertController.create({
+          header: 'Hata',
+          backdropDismiss:true,
+          message: 'Lütfen formu eksiksiz doldurunuz',
+          buttons:[{role:'cancel',text:'Tamam'}]})).then(res=>res.present());
+      }
     }
   }
 

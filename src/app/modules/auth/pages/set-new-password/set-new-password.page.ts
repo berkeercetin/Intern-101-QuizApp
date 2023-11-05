@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { AlertController, LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-set-new-password',
@@ -18,7 +18,7 @@ export class SetNewPasswordPage implements OnInit {
   password!: string;
   repeatPassword!: string
   
-  constructor(private router: Router,private auth:AuthService,private loadingController:LoadingController,private route : ActivatedRoute) { }
+  constructor(private router: Router,private auth:AuthService,private loadingController:LoadingController,private route : ActivatedRoute,private alertController:AlertController) { }
   
   get errorControl() { return this.ionicForm.controls;}
 
@@ -41,6 +41,8 @@ export class SetNewPasswordPage implements OnInit {
       .then(res => res.present());
       this.auth.setNewPassword(this.code,this.ionicForm.value.newPassword).then(()=>{alert("basarılı") ;this.router.navigateByUrl('/login')}).catch(err=>{alert(err)}).finally(()=>{this.loadingController.dismiss();})
 
+    }else{
+      this.alertController.create({message:'Şifreler Eşleşmiyor',buttons:['Tamam']}).then(res=>res.present())
     }
   }
 }

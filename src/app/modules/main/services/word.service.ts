@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore, collection, collectionData, doc, query, setDoc, where } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { WordModel } from '../models/wordModel';
 
 @Injectable({
   providedIn: 'root'
@@ -13,14 +14,14 @@ export class WordService {
   
   listWords(){
     const wordollection=collection(this.firestore,'words')
-    return collectionData(wordollection)  as Observable<any>;
+    return collectionData(wordollection)  as Observable<WordModel>;
   }
 
-  listWordsbyDeck(deckID:string){
+  listWordsbyDeck(deckID:string): Observable<WordModel[]>{
     const wordCollection=collection(this.firestore,'words')
     const q = query(wordCollection, where("deckID", "==",deckID));
 
-    return collectionData(q)  as Observable<any>;
+    return collectionData(q)  as Observable<WordModel[]>;
   }
 
   addWord(){

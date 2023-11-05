@@ -22,10 +22,14 @@ export class LandingPage implements OnInit {
   }
   
   google(){
-    this.auth.byGoogle().then(res=>{
-      this.userService.addUserProfile(JSON.parse(JSON.stringify(res.user)),res.user.uid)?.then(
-        ()=>this.router.navigateByUrl("/main/home")
-      ).catch(err=>console.log(err))
+    this.auth.byGoogle().then(res1=>{
+      this.userService.checkUser(res1.user.uid)?.then(res2=>{
+        if(res2){
+          this.userService.addUserProfile(JSON.parse(JSON.stringify(res1.user)),res1.user.uid)?.then(
+            ()=>this.router.navigateByUrl("/main/home")
+          ).catch(err=>console.log(err))
+        }
+       })
     }).catch(err=>console.log("err google"+err))
   }
 

@@ -63,10 +63,10 @@ export class WordCardsDeckPage implements OnInit {
   }
 
   async nextCard() {
-    this.userService.updateDeck(this.route.snapshot.params['deckID'], this.authService.isLogged(),this.index,this.type)
+    this.userService.updateDeck(this.route.snapshot.params['deckID'], this.authService.isLogged() ||"",this.index,this.type)
     if (this.type == "learning") {
-      if (await this.userService.checkLearningWord(this.words[this.index].wordID, this.authService.isLogged())) {
-        this.userService.addLearningWord(this.words[this.index].wordID, this.authService.isLogged())
+      if (await this.userService.checkLearningWord(this.words[this.index].wordID ||"" , this.authService.isLogged()|| "")) {
+        this.userService.addLearningWord(this.words[this.index].wordID || ""  , this.authService.isLogged() || "")
       }
     }
     if (this.index == this.words.length - 1) {
@@ -85,7 +85,7 @@ export class WordCardsDeckPage implements OnInit {
   }
 
   async getWords() {
-    this.subs = this.wordService.listWordsbyDeck(this.route.snapshot.params['deckID']).subscribe(res => {
+    this.subs = this.wordService.listWordsbyDeck(this.route.snapshot.params['deckID']).subscribe((res: WordModel[]) => {
       this.isFlipped = new Array(res.length).fill(false);
       this.words = res
       if (this.type == "quiz") {

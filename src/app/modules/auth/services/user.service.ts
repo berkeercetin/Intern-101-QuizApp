@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { UserProfile } from '@angular/fire/auth';
-import { CollectionReference,updateDoc,collectionData , DocumentReference, Firestore, addDoc, collection, doc, getDoc, query, setDoc, where } from '@angular/fire/firestore';
+import { CollectionReference,updateDoc,collectionData , Firestore, collection, doc, getDoc, setDoc } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -13,15 +13,20 @@ export class UserService {
   usersCollection!: CollectionReference;
   constructor(private route:ActivatedRoute) { }
 
-  addUserProfile(user: any,uid:any) {
+  addUserProfile(user: any,uid:string) {
     if (!user) return;
-    user.uid=uid
+    const userData = {
+      email:user.email,
+      name:user.name,
+      uid:uid,
+    }
+  
     const usersRef = collection(this.firestore, "users");
-    return setDoc(doc(usersRef, uid), user)
+    return setDoc(doc(usersRef, uid), userData)
 
 }
 
-  async checkLearningWord(wordID:any,uid:any){
+  async checkLearningWord(wordID:string,uid:string){
 
     const docRef = doc(this.firestore, "/users/"+ uid +"/learningWords/"+wordID);
     const docSnap = await getDoc(docRef);
@@ -34,7 +39,7 @@ export class UserService {
 
   }
 
-  async checkLearningDeck(deckID:any,uid:any){
+  async checkLearningDeck(deckID:string,uid:string){
     const docRef = doc(this.firestore, "/users/"+ uid +"/startedDecks/"+deckID);
     const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
@@ -45,12 +50,20 @@ export class UserService {
 
   }
 
-  getStartedDecks(uid:any){
+  async checkUser(uid:string){
+    const usersRef = doc(this.firestore, "/users/"+uid);
+    const docSnap = await getDoc(usersRef);
+    return docSnap.exists()
+   
+
+  }
+
+  getStartedDecks(uid:string){
     const categoryCollection=collection(this.firestore,"/users/"+ uid +"/startedDecks/")
     return collectionData(categoryCollection)  as Observable<any>;
   }
 
- addLearningWord(wordID:any,uid:any){
+ addLearningWord(wordID:string,uid:string){
   const learnRef = collection(this.firestore, "/users/"+uid+ "/learningWords");
   const learningWord={
     wordID:wordID,
@@ -61,7 +74,7 @@ export class UserService {
 
  }
 
- addLearningDeck(deckID:any,uid:any){
+ addLearningDeck(deckID:string,uid:string){
   const deckRef = collection(this.firestore, "/users/"+uid+ "/startedDecks");
   const learningWord={
     deckID:deckID,
@@ -73,7 +86,7 @@ export class UserService {
 
  }
 
- updateDeck(deckID:any,uid:any,index:any,type:any){
+ updateDeck(deckID:string,uid:string,index:number,type:string){
   const deckRef = collection(this.firestore, "/users/"+uid+ "/startedDecks");
   let learningDeck = {}
   if (type=="quiz"){
