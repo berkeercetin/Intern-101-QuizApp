@@ -7,6 +7,7 @@ import { UserService } from 'src/app/modules/auth/services/user.service';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
 import { CategoryModel } from '../../models/category.model';
 import { DeckModel } from '../../models/deck.model';
+import { WordService } from '../../services/word.service';
 
 @Component({
   selector: 'app-word-cards-subjects',
@@ -25,7 +26,8 @@ export class WordCardsSubjectsPage implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private wordService: WordService
   ) { }
 
   ngOnInit() {
@@ -43,6 +45,35 @@ export class WordCardsSubjectsPage implements OnInit {
 
   getDecks() {
     this.subsDeck = this.deckService.listDecks().subscribe(res => { this.decks = res })
+  }
+  calculateProgress(deckID: string): string {
+    // DeckID'ye bağlı olarak tamamlanma yüzdesi hesaplanır veya duruma göre "Start" veya "Tamamlandı" döndürülür.
+    
+    // Örnek olarak bir yüzde hesaplama işlemi:
+    const progress = this.calculateCompletionPercentage(deckID);
+    
+    if (progress === 0) {
+      return 'Start';
+    } else if (progress === 100) {
+      return 'Tamamlandı';
+    } else {
+      return `${progress}%`;
+    }
+  }
+  temp?:number
+  calculateCompletionPercentage(deckID: string) {
+    this.wordService.listWordsbyDeck(deckID).subscribe(res => {
+      const words = res
+      const wordsLength = words.length
+      let wordsLearned = 0
+      words.forEach(async word => {
+        if (await this.userService.checkLearningWord(word.wordID!, this.authService.isLogged()||"")) {
+          wordsLearned++
+        }
+      });
+      this.temp= (wordsLearned/100)*wordsLength;
+    })
+     return this.temp
   }
 
   filterDecks(categoryID: string,) {
