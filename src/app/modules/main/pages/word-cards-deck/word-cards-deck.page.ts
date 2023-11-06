@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/modules/auth/services/user.service';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
-import { AlertController, ModalController } from '@ionic/angular';
+import { AlertController, LoadingController, ModalController } from '@ionic/angular';
 import { AnswerPage } from '../../modals/answer/answer.page';
 import { QuestionModel } from '../../models/Question.model';
 import { WordModel } from '../../models/wordModel';
@@ -32,13 +32,30 @@ export class WordCardsDeckPage implements OnInit {
     private userService: UserService,
     private authService: AuthService,
     private modalController: ModalController,
-    private alertController:AlertController
+    private alertController:AlertController,
+    private spinnerController:LoadingController
   ) { }
     ngOnInit() {
       
     }
   ionViewWillEnter() {
-    this.getWords()
+    this.spinnerController.create({
+      message: "Yükleniyor...",
+      animated:true,
+      spinner:"crescent",
+    }).then((res)=>{
+      res.present();
+      this.getWords().then(()=>{
+        if(this.type=="quiz"){
+          this.getQuestions().then(()=>{
+            this.spinnerController.dismiss();
+          });
+        } else {
+          this.spinnerController.dismiss();
+        }
+      });
+    });
+
   }
 
   flipCard(index: number) {
@@ -85,34 +102,42 @@ export class WordCardsDeckPage implements OnInit {
   }
 
   async getWords() {
-    this.subs = this.wordService.listWordsbyDeck(this.route.snapshot.params['deckID']).subscribe((res: WordModel[]) => {
-      this.isFlipped = new Array(res.length).fill(false);
-      this.words = res
-      if (this.type == "quiz") {
-        this.words.forEach(word => {
-          const answers = new Set()
-          answers.add(word.turkishWordName)
-          let count = 0
-          while (count < 3) {
-            const randomIndex = Math.floor(Math.random() * this.words.length)
-            const randomWord = this.words[randomIndex].turkishWordName
-            if (!answers.has(randomWord)) {
-              answers.add(randomWord)
-              count++
-            }
-          }
-          const shuffledAnswers = Array.from(answers).sort(() => Math.random() - 0.5)
-          this.questions.push(new QuestionModel({
-            word: word,
-            answers: new Set(shuffledAnswers),
-            correctAnswer: word.turkishWordName,
-            title: word.wordName + 'Kelimesinin Türkçe karşılığı aşağıdakilerden hangisidir ?'
-          }))
-        })
-        this.questionLoading = true
-        console.log(this.questions)
-      }
+    return new Promise((resolve) => {
+      this.subs = this.wordService.listWordsbyDeck(this.route.snapshot.params['deckID']).subscribe((res: WordModel[]) => {
+        this.isFlipped = new Array(res.length).fill(false);
+        this.words = res
+        resolve(res)
+      })
     })
+
+  }
+  async getQuestions(){
+    return new Promise((resolve) => {
+      this.words.forEach(word => {
+        const answers = new Set()
+        answers.add(word.turkishWordName)
+        let count = 0
+        while (count < 3) {
+          const randomIndex = Math.floor(Math.random() * this.words.length)
+          const randomWord = this.words[randomIndex].turkishWordName
+          if (!answers.has(randomWord)) {
+            answers.add(randomWord)
+            count++
+          }
+        }
+        const shuffledAnswers = Array.from(answers).sort(() => Math.random() - 0.5)
+        this.questions.push(new QuestionModel({
+          word: word,
+          answers: new Set(shuffledAnswers),
+          correctAnswer: word.turkishWordName,
+          title: word.wordName + 'Kelimesinin Türkçe karşılığı aşağıdakilerden hangisidir ?'
+        }))
+      })
+      this.questionLoading = true
+      console.log(this.questions)
+      resolve(this.questions)
+    })
+
   }
 
   async presentModal(status: boolean, word: WordModel) {
