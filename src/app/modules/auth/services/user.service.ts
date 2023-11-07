@@ -1,14 +1,19 @@
 import { Injectable, inject } from '@angular/core';
-import { UserProfile } from '@angular/fire/auth';
+import { Auth, UserProfile, reauthenticateWithCredential, updateEmail, updatePhoneNumber, updateProfile, verifyBeforeUpdateEmail } from '@angular/fire/auth';
 import { CollectionReference,updateDoc,collectionData , Firestore, collection, doc, getDoc, setDoc } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { GlobalService } from 'src/app/services/global.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   private firestore: Firestore = inject(Firestore);
+  private auth: Auth = inject(Auth);
+  private global: GlobalService = inject(GlobalService);
+
+
   users$!: Observable<UserProfile[]>;
   usersCollection!: CollectionReference;
   constructor(private route:ActivatedRoute) { }
@@ -108,4 +113,22 @@ export class UserService {
   //return setDoc(doc(deckRef, deckID),learningWord).then(res=>console.log(res)).catch(err=>console.log("err:"+err))
 
  }
-}
+
+ async setProfileData(data:any,uid:string){
+  const userRef = collection(this.firestore, "/users/");
+  const currentUser = this.auth.currentUser!
+  
+  return await updateDoc(doc(userRef,uid), data)
+  .then(() => {
+    updateProfile(this.auth.currentUser!, {
+      displayName: data.name,
+      photoURL: data.profilePhotoURL
+    }).then(() => {
+      updatePhoneNumber(currentUser,data.phoneNumber).then(() => {
+        verifyBeforeUpdateEmail(currentUser,data.email).then(() => {
+               console.log("success");
+             }).catch((err) => {throw new Error(err)});
+          }).catch((err) => {throw new Error(err)});  
+    }).catch((err) => {throw new Error(err)});})
+  .catch((err) => { throw new Error(err) })
+}}

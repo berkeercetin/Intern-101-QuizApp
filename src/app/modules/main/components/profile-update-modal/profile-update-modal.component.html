@@ -1,0 +1,30 @@
+<ion-card class="profile-update-modal">
+  <ion-card-header>
+    <ion-card-title>Kişisel Bilgiler</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-list [formGroup]="personalInformationForm">
+      <ion-item *ngFor="let control of formControllers">
+
+        <ion-input
+          labelPlacement="floating" 
+          [formControlName]="control.formControlName"
+          [placeholder]="control.placeholder"
+          [label]="control.label"
+          [type]="control.type"
+        >
+        </ion-input>
+        <ng-container *ngIf="control.type === 'photo-upload' ">
+          <ion-button fill="outline" slot="end" (click)="triggerFileUpload($event)">
+            YÜKLE
+          </ion-button>
+        </ng-container>
+      </ion-item>
+    </ion-list>
+
+    <div>
+      <ion-button (click)="save()">Kaydet</ion-button>
+      <ion-button (click)="close()">Kapat</ion-button>
+    </div>
+  </ion-card-content>
+</ion-card>
