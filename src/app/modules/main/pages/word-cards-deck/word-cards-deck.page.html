@@ -48,18 +48,26 @@
               </ion-card-header>
               <ion-card-content>
                 <ion-grid>
-                  <ion-radio-group [(ngModel)]="selectedAnswer" >
+                  <ion-radio-group  [(ngModel)]="selectedAnswer" >
                     <div *ngFor="let answer of question.answers ">
                       <ion-row>
                         <ion-col size="12">
-                          <ion-radio  [value]="answer">{{ answer }}</ion-radio>
+                          <ion-radio labelPlacement="end" [value]="answer">{{ answer }}</ion-radio>
                         </ion-col>
                       </ion-row>
                     </div>
                   </ion-radio-group>
                 </ion-grid>
-                <ion-button (click)="checkAnswer()" id="open-modal" expand="block">Kontrol Et</ion-button>
-
+                <ion-toolbar>
+                  <ion-buttons slot="start">
+                    <ion-button (click)="checkAnswer(true)">GEÇ</ion-button>
+                  </ion-buttons>
+                  <ion-title>Buttons</ion-title>
+                  <ion-buttons slot="end">
+                    <ion-button style="text-align: end;" (click)="checkAnswer(false)" id="open-modal" >Kontrol Et</ion-button>
+                  </ion-buttons>
+                </ion-toolbar>
+                
               </ion-card-content>
             </ion-card>
           </div>
@@ -72,12 +80,12 @@
         </ion-modal> -->
       </ng-container>
     </div>
-    <button (click)="backCard()" class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+    <button style="display: none;" (click)="backCard()" class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
       data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Previous</span>
     </button>
-    <button #nextButton (click)="nextCard()"  class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+    <button style="display: none;" #nextButton (click)="nextCard()"  class="carousel-control-next" type="button" data-bs-target="#carouselExample"
       data-bs-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>

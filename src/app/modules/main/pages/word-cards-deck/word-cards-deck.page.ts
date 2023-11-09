@@ -22,6 +22,7 @@ export class WordCardsDeckPage implements OnInit {
   isFlipped!: boolean[]
   subs: Subscription = new Subscription();
   index: number = 0
+  success: number = 0
   type = this.route.snapshot.params['type']
   questions:QuestionModel[]=[]
   questionLoading:boolean=false
@@ -35,9 +36,7 @@ export class WordCardsDeckPage implements OnInit {
     private alertController:AlertController,
     private spinnerController:LoadingController
   ) { }
-    ngOnInit() {
-      
-    }
+    ngOnInit() {}
   ionViewWillEnter() {
     this.spinnerController.create({
       message: "Yükleniyor...",
@@ -62,21 +61,37 @@ export class WordCardsDeckPage implements OnInit {
     this.isFlipped[index] = !this.isFlipped[index];
   }
 
-  checkAnswer() {
+  checkAnswer(isSkipped?:boolean) {
     if (this.selectedAnswer == this.words[this.index].turkishWordName) {
-      this.presentModal(true, this.words[this.index])
+      this.success++
+      this.presentModal(true, this.words[this.index],isSkipped)
+    }
+    else if (this.selectedAnswer == undefined) {
+      this.presentModal(undefined, this.words[this.index],isSkipped)
     }
     else {
-      this.presentModal(false, this.words[this.index])
+      this.presentModal(false, this.words[this.index],isSkipped)
     }
   }
   async presentAlert() {
-    const alert = await this.alertController.create({
-      header: 'Tamamladınız !',
-      buttons: ['OK'],
-    });
-    this.router.navigateByUrl('/main/home')
-    await alert.present();
+    const successRate = (this.success / this.questions.length) * 100
+    if(this.type=="quiz"){
+      const alert = await this.alertController.create({
+        header: 'Tamamladınız !',
+        message: 'Başarı oranınız : ' + successRate + '%',
+        buttons: ['OK'],
+      });
+      this.router.navigateByUrl('/main/home')
+      await alert.present();
+    }
+    else{
+      const alert = await this.alertController.create({
+        header: 'Tamamladınız !',
+        buttons: ['OK'],
+      });
+      this.router.navigateByUrl('/main/home')
+      await alert.present();
+    }
   }
 
   async nextCard() {
@@ -85,6 +100,9 @@ export class WordCardsDeckPage implements OnInit {
       if (await this.userService.checkLearningWord(this.words[this.index].wordID ||"" , this.authService.isLogged()|| "")) {
         this.userService.addLearningWord(this.words[this.index].wordID || ""  , this.authService.isLogged() || "")
       }
+    }
+    if(this.type=="quiz"){
+      this.selectedAnswer = undefined
     }
     if (this.index == this.words.length - 1) {
       this.index = 0
@@ -140,15 +158,16 @@ export class WordCardsDeckPage implements OnInit {
 
   }
 
-  async presentModal(status: boolean, word: WordModel) {
+  async presentModal(status?: boolean, word?: WordModel,isSkipped?:boolean) {
     const modal = await this.modalController.create({
       component: AnswerPage,
       backdropDismiss: false,
       breakpoints: [0, 0.25, 0.5, 0.75],
-      initialBreakpoint: 0.25,
+      initialBreakpoint: 0.50,
       componentProps: {
         'status': status,
         'word': word,
+        'isSkipped':isSkipped,
       },
     });
     modal.onDidDismiss()
