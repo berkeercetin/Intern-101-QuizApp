@@ -1,0 +1,84 @@
+.personInformation{
+    display: flex;
+    gap: 16px;
+    justify-content: start;
+    padding: 16px 16px  0px  16px; 
+    
+    .personDescription{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        .scoreSummary{
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            span{
+                display: flex;
+                align-items: center;
+                ion-icon{
+                    margin-right: 4px;
+                }
+            }
+        }
+    }
+}
+
+.badgeGroup{
+    display: flex;
+    align-items: center;
+    margin: 16px 16px;
+    gap: 8px;
+    ion-icon{
+        width: 32px;
+        height: 32px;
+    }
+
+    .score{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+
+        ion-label{
+            font-size: 16px;
+        }
+
+    }
+}
+
+.buttonGroup{
+    display: flex;
+}
+
+ion-button.scoreButton{
+    width: -webkit-fill-available; 
+    --background: #F4F5F8;
+    --color:#7CA0BE;
+}
+
+.medals{
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 16px 0px;
+    .medal{
+        padding: 8px;
+        width: 80px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        ion-icon{
+            width: 32px;
+            height: 32px;
+        }
+        ion-label{
+            font-size: 18px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+}

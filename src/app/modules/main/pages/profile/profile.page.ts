@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 import { GlobalService } from 'src/app/services/global.service';
 import { ProfileUpdateModalComponent } from '../../components/profile-update-modal/profile-update-modal.component';
+import { UserModel } from '../../models/user.model';
 
 @Component({
   selector: 'app-profile',
@@ -101,20 +102,5 @@ export class ProfilePage implements OnInit {
 
 }
 
-class UserModel {
-  displayName?: string;
-  email?: string;
-  phoneNumber?: string;
-  photoURL?: string;
-  uid?: string;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  constructor(data: any) {
-    this.displayName =  data.displayName || "İsim Bilinmiyor";
-    this.email = data.email || "Eposta Bilinmiyor";
-    this.phoneNumber = data.phoneNumber || "Telefon Numarası Bilinmiyor";
-    this.photoURL = data.photoURL || "https://ionicframework.com/docs/img/demos/avatar.svg";
-    this.uid = data.uid
-  }
-}
 

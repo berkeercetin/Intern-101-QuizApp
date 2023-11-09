@@ -1,0 +1,62 @@
+<ion-content>
+  <ion-card>
+    <ion-card-content class="ion-no-padding">
+        <div class="personInformation">
+          <ion-avatar>
+            <img
+              alt="Silhouette of a person's head"
+              [src]="userData.photoURL"
+            />
+          </ion-avatar>
+          <div class="personDescription">
+            <h1>{{userData.displayName}}</h1>
+            <div class="scoreSummary">
+              <span>
+                {{userData.appScore}} puan /
+              </span>
+              <span>
+                <ion-icon name="earth" slot="start" size="small"></ion-icon>{{userData.globalRank}}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="badgeGroup">
+          <ion-icon name="ribbon"></ion-icon>
+          <div class="score">
+              <ion-label>App Score</ion-label>
+              <ion-label>{{userData.appScore}}</ion-label>
+          </div>
+        </div>
+
+        <div class="buttonGroup">
+          <ion-button class="ion-no-margin scoreButton" expand="full" (click)="isMedalOpen = true;">Medals</ion-button>
+          <ion-button expand="full" class="ion-no-margin scoreButton" (click)="isMedalOpen = false;">Awards</ion-button>
+        </div>
+        
+        <div>
+          <ng-container *ngIf="isMedalOpen" >
+            <div class="medals">
+            <div *ngFor="let medal of medals" class="medal">
+              <ion-icon [ngStyle]="{'color':medal.icon.color}"  [name]="medal.icon.name"></ion-icon>
+              <ion-label>{{medal.name}}</ion-label>
+            </div>
+          </div>
+            <ion-button expand="full" class="ion-no-margin scoreButton" (click)="allMedals()" >SEE ALL MEDALS</ion-button>
+          </ng-container>
+            
+          <ng-container *ngIf="!isMedalOpen">
+            <div class="medals">
+              <div *ngFor="let award of awards" class="medal">
+                <ion-icon [ngStyle]="{'color':award.icon.color}"  [name]="award.icon.name"></ion-icon>
+                <ion-label>{{award.name}}</ion-label>
+              </div>
+            </div>
+            <ion-button expand="full" class="ion-no-margin scoreButton" (click)="allAwards()">SEE ALL Awards</ion-button>
+
+          </ng-container>
+        </div>
+
+    </ion-card-content>
+  </ion-card>
+</ion-content>

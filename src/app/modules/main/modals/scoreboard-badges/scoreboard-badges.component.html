@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Modal</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="modal.dismiss()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ng-container *ngIf="badges !== undefined">
+    <div>
+      <div *ngFor="let badge of badges">
+        <ion-card class="mak-badge">
+          <ion-card-header class="ion-no-padding">
+            <ion-card-title>
+              <ion-icon [ngStyle]="{'color':badge.icon.color}"  [name]="badge.icon.name"></ion-icon>
+              <ion-label>
+                {{badge.name}}
+              </ion-label>
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="ion-no-padding">
+            <ion-item>
+              <p>In order to gain this badge you should crash into twin towers</p>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+  </ng-container>
+
+</ion-content>
