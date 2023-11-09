@@ -50,20 +50,22 @@ export class WordCardsDeckPage implements OnInit {
       spinner:"crescent",
     }).then((res)=>{
       res.present();
-      this.voices = speechSynthesis.getVoices()
-      // set the default voice to the first Turkish voice
-      this.voice = this.voices.find(v => v.lang === 'tr-TR');
-      // set the default speaking status to false
-      this.speaking = false;
-      this.getWords().then(()=>{
-        if(this.type=="quiz"){
-          this.getQuestions().then(()=>{
-            this.spinnerController.dismiss();
-          });
-        } else {
+
+    });
+    
+    this.voices = speechSynthesis.getVoices()
+    // set the default voice to the first Turkish voice
+    this.voice = this.voices.find(v => v.lang === 'tr-TR');
+    // set the default speaking status to false
+    this.speaking = false;
+    this.getWords().then(()=>{
+      if(this.type=="quiz"){
+        this.getQuestions().then(()=>{
           this.spinnerController.dismiss();
-        }
-      });
+        });
+      } else {
+        this.spinnerController.dismiss();
+      }
     });
 
   }
