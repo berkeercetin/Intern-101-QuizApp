@@ -12,8 +12,11 @@
                 </ion-toolbar>
                 <div class="front">
                   <ion-card-header>
-                    <ion-card-title style="text-align: center;"><ion-icon
+                    <ion-card-title style="text-align: center;"><ion-icon (click)="speak()"
                         name="volume-high-outline"></ion-icon></ion-card-title>
+                        <select (change)="changeVoice($event)">
+                          <option *ngFor="let voice of voices" [value]="voice.name">{{voice.name}}</option>
+                        </select>
                     <ion-card-title>{{word.wordName}}</ion-card-title>
                   </ion-card-header>
                   <ion-card-content>
@@ -80,12 +83,12 @@
         </ion-modal> -->
       </ng-container>
     </div>
-    <button style="display: none;" (click)="backCard()" class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
+    <button [ngStyle]="{'display': (type === 'quiz') ? 'none' : 'block'}" (click)="backCard()" class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
       data-bs-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Previous</span>
     </button>
-    <button style="display: none;" #nextButton (click)="nextCard()"  class="carousel-control-next" type="button" data-bs-target="#carouselExample"
+    <button [ngStyle]="{'display': (type === 'quiz') ? 'none' : 'block'}"  #nextButton (click)="nextCard()"  class="carousel-control-next" type="button" data-bs-target="#carouselExample"
       data-bs-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>

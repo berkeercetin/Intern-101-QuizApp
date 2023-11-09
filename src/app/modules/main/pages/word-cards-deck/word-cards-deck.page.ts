@@ -26,6 +26,12 @@ export class WordCardsDeckPage implements OnInit {
   type = this.route.snapshot.params['type']
   questions:QuestionModel[]=[]
   questionLoading:boolean=false
+  poem?: string; 
+  voices!: SpeechSynthesisVoice[]; 
+  voice?: SpeechSynthesisVoice; 
+  speaking?: boolean;
+
+
   constructor(
     private wordService: WordService,
     public route: ActivatedRoute,
@@ -44,6 +50,11 @@ export class WordCardsDeckPage implements OnInit {
       spinner:"crescent",
     }).then((res)=>{
       res.present();
+      this.voices = speechSynthesis.getVoices()
+      // set the default voice to the first Turkish voice
+      this.voice = this.voices.find(v => v.lang === 'tr-TR');
+      // set the default speaking status to false
+      this.speaking = false;
       this.getWords().then(()=>{
         if(this.type=="quiz"){
           this.getQuestions().then(()=>{
@@ -56,6 +67,36 @@ export class WordCardsDeckPage implements OnInit {
     });
 
   }
+  speak() {
+    // create a speech synthesis utterance object
+    const utterance = new SpeechSynthesisUtterance(this.words[this.index].wordName);
+    // set the speaking status to true
+    this.speaking = true;
+    // add an event listener for the end event
+    utterance.addEventListener('end', () => {
+      // set the speaking status to false
+      this.speaking = false;
+    });
+    // set the voice of the utterance
+    utterance.voice = this.voice || null;
+    utterance.addEventListener('end', () => {
+      // set the speaking status to false
+      this.speaking = false;
+    });
+    // speak the utterance
+    speechSynthesis.speak(utterance);
+  }
+
+  // a method to change the voice
+  changeVoice(event:any) {
+    // get the voice name from the event
+    const voiceName = event.target.value;
+    // find the voice by the name
+    this.voice = this.voices.find(v => v.name === voiceName);
+  }
+
+
+
 
   flipCard(index: number) {
     this.isFlipped[index] = !this.isFlipped[index];
