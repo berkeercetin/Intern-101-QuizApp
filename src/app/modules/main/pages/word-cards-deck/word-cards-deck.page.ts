@@ -8,6 +8,7 @@ import { AlertController, LoadingController, ModalController } from '@ionic/angu
 import { AnswerPage } from '../../modals/answer/answer.page';
 import { QuestionModel } from '../../models/Question.model';
 import { WordModel } from '../../models/wordModel';
+import { TextToSpeech } from '@capacitor-community/text-to-speech';
 
 @Component({
   selector: 'app-word-cards-deck',
@@ -26,10 +27,10 @@ export class WordCardsDeckPage implements OnInit {
   type = this.route.snapshot.params['type']
   questions:QuestionModel[]=[]
   questionLoading:boolean=false
-  poem?: string; 
-  voices!: SpeechSynthesisVoice[]; 
-  voice?: SpeechSynthesisVoice; 
-  speaking?: boolean;
+  // poem?: string; 
+  // voices!: SpeechSynthesisVoice[]; 
+  // voice?: SpeechSynthesisVoice; 
+  // speaking?: boolean;
 
 
   constructor(
@@ -53,11 +54,11 @@ export class WordCardsDeckPage implements OnInit {
 
     });
     
-    this.voices = speechSynthesis.getVoices()
-    // set the default voice to the first Turkish voice
-    this.voice = this.voices.find(v => v.lang === 'tr-TR');
-    // set the default speaking status to false
-    this.speaking = false;
+    // this.voices = speechSynthesis.getVoices()
+    // // set the default voice to the first Turkish voice
+    // this.voice = this.voices.find(v => v.lang === 'tr-TR');
+    // // set the default speaking status to false
+    // this.speaking = false;
     this.getWords().then(()=>{
       if(this.type=="quiz"){
         this.getQuestions().then(()=>{
@@ -69,33 +70,24 @@ export class WordCardsDeckPage implements OnInit {
     });
 
   }
-  speak() {
-    // create a speech synthesis utterance object
-    const utterance = new SpeechSynthesisUtterance(this.words[this.index].wordName);
-    // set the speaking status to true
-    this.speaking = true;
-    // add an event listener for the end event
-    utterance.addEventListener('end', () => {
-      // set the speaking status to false
-      this.speaking = false;
+  async speak() {
+    await TextToSpeech.speak({
+      text: this.words[this.index].wordName!,
+      lang: 'en-US',
+      rate: 1.0,
+      pitch: 1.0,
+      volume: 1.0,
+      category: 'ambient',
     });
-    // set the voice of the utterance
-    utterance.voice = this.voice || null;
-    utterance.addEventListener('end', () => {
-      // set the speaking status to false
-      this.speaking = false;
-    });
-    // speak the utterance
-    speechSynthesis.speak(utterance);
   }
 
-  // a method to change the voice
-  changeVoice(event:any) {
-    // get the voice name from the event
-    const voiceName = event.target.value;
-    // find the voice by the name
-    this.voice = this.voices.find(v => v.name === voiceName);
-  }
+  // // a method to change the voice
+  // changeVoice(event:any) {
+  //   // get the voice name from the event
+  //   const voiceName = event.target.value;
+  //   // find the voice by the name
+  //   this.voice = this.voices.find(v => v.name === voiceName);
+  // }
 
 
 

@@ -7,7 +7,7 @@
               <ion-icon name="{{category.iconName}}"></ion-icon>
               <ion-label>{{category.categoryName}}</ion-label>
           </ion-buttons>
-          <ion-buttons slot="end">
+          <ion-buttons *ngIf="decks" slot="end">
             <ion-badge slot="end">{{filterDecks(category.categoryID).length}} Decks</ion-badge>
           </ion-buttons>
         </ion-toolbar>
