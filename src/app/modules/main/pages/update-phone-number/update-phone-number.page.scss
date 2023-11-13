@@ -1,0 +1,30 @@
+ion-button{
+    --color:#FFFFFF;
+    --border-color: #FFFFFF;
+    --border-style: solid;
+    --border-width: 1px;
+    --border-radius: 128px;
+}
+
+ion-item{
+    --background: rgba(255, 255, 255, 0.1) backdrop-filter: blur(10px); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --border-color: #FFFFFF;
+
+    ion-input{
+        --color:#FFFFFF;
+        --highlight-color-invalid:#FFFFFF;
+        --highlight-color:#FFFFFF;
+        --highlight-color-valid:#FFFFFF;
+        --highlight-color-focused:#FFFFFF;
+    }
+}
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+ion-label{
+    --color:#FFFFFF;
+
+}

@@ -48,6 +48,10 @@ const routes: Routes = [
         path: 'scoreboard',
         loadChildren: () => import('./pages/scoreboard/scoreboard.module').then( m => m.ScoreboardPageModule)
       },
+      {
+        path: 'update-phone-number',
+        loadChildren: () => import('./pages/update-phone-number/update-phone-number.module').then( m => m.UpdatePhoneNumberPageModule)
+      },
     ]
   },
 

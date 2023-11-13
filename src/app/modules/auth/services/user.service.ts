@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Auth, UserProfile, reauthenticateWithCredential, updateEmail, updatePhoneNumber, updateProfile, verifyBeforeUpdateEmail } from '@angular/fire/auth';
+import { Auth, PhoneAuthProvider, RecaptchaParameters, RecaptchaVerifier, UserProfile, signInWithEmailAndPassword, signInWithPhoneNumber, updatePhoneNumber, updateProfile } from '@angular/fire/auth';
 import { CollectionReference,updateDoc,collectionData , Firestore, collection, doc, getDoc, setDoc } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -116,19 +116,45 @@ export class UserService {
 
  async setProfileData(data:any,uid:string){
   const userRef = collection(this.firestore, "/users/");
-  const currentUser = this.auth.currentUser!
-  
   return await updateDoc(doc(userRef,uid), data)
   .then(() => {
     updateProfile(this.auth.currentUser!, {
       displayName: data.name,
       photoURL: data.profilePhotoURL
-    }).then(() => {
-      updatePhoneNumber(currentUser,data.phoneNumber).then(() => {
-        verifyBeforeUpdateEmail(currentUser,data.email).then(() => {
-               console.log("success");
-             }).catch((err) => {throw new Error(err)});
-          }).catch((err) => {throw new Error(err)});  
-    }).catch((err) => {throw new Error(err)});})
-  .catch((err) => { throw new Error(err) })
-}}
+    })
+  }).catch((err) => { throw new Error(err) })
+}
+
+
+
+async updatePhoneNumber(phoneNumber:string, verificationCode:string, countryCode = 90 ){
+  const recaptchaParameters:RecaptchaParameters = { size:"invisible" }
+  const applicationVerifier = new RecaptchaVerifier('recaptcha-container',recaptchaParameters,this.auth);
+  const provider = new PhoneAuthProvider(this.auth);
+  const verificationId = await provider.verifyPhoneNumber( `+${countryCode}${phoneNumber}`, applicationVerifier);
+  const phoneCredential = PhoneAuthProvider.credential(verificationId, verificationCode);
+  try {
+    // const user = (await signInWithEmailAndPassword(this.auth, this.auth.currentUser!.email!, "132123")).user
+    return await updatePhoneNumber(this.auth.currentUser!, phoneCredential);
+  } catch (error) {
+   console.log(error) 
+  }
+}
+
+async sendVerificationCode(phoneNumber:string, countryCode = 90 ){
+  const recaptchaParameters:RecaptchaParameters = { size:"invisible" }
+  const applicationVerifier = new RecaptchaVerifier('recaptcha-container',recaptchaParameters,this.auth);
+  return {confirmationResult: await signInWithPhoneNumber(this.auth, `+${countryCode}${phoneNumber}`, applicationVerifier) , applicationVerifier:applicationVerifier}
+}
+
+reCaptchaVerifier(){
+  const recaptchaParameters:RecaptchaParameters = { size:"invisible" }
+  return new RecaptchaVerifier('recaptcha-container',recaptchaParameters,this.auth);
+}
+
+
+
+}
+
+
+

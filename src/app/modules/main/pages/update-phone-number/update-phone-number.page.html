@@ -1,0 +1,16 @@
+<ion-content [fullscreen]="true">
+  <ion-title style="color: white;"  >Telefon Numarasını Değiştir</ion-title>
+  <form style="padding: 12px;" [formGroup]="phoneNumberForm">
+      <ion-item  fill="outline" lines="full" >
+        <ion-input  formControlName="phoneNumber" class="custom" placeholder="5079998845" label="Telefon Numarası" labelPlacement="floating"></ion-input>
+      </ion-item>
+
+      <ion-button (click)="submit()" expand="block" fill="outline" mode="ios">
+        Telefon Numarasını değiştir.
+        <ion-icon slot="start" name="log-in-outline"></ion-icon>
+      </ion-button>
+  </form>
+  <div 
+       id="recaptcha-container"
+  ></div> 
+</ion-content>

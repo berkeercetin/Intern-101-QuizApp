@@ -28,6 +28,14 @@ export class ProfilePage implements OnInit {
       },
       {
         icon: {
+          name: "phone",
+          color: "#DAA520"
+        },
+        href: "/main/update-phone-number",
+        name: "Chance Phone Number",
+      },
+      {
+        icon: {
           name: "book",
           color: "#708090"
         },
