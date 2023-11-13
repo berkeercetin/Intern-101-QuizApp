@@ -128,14 +128,19 @@ export class UserService {
 
 
 async updatePhoneNumber(phoneNumber:string, verificationCode:string, countryCode = 90 ){
+  //  update auth data
   const recaptchaParameters:RecaptchaParameters = { size:"invisible" }
   const applicationVerifier = new RecaptchaVerifier('recaptcha-container',recaptchaParameters,this.auth);
   const provider = new PhoneAuthProvider(this.auth);
   const verificationId = await provider.verifyPhoneNumber( `+${countryCode}${phoneNumber}`, applicationVerifier);
   const phoneCredential = PhoneAuthProvider.credential(verificationId, verificationCode);
   try {
-    // const user = (await signInWithEmailAndPassword(this.auth, this.auth.currentUser!.email!, "132123")).user
-    return await updatePhoneNumber(this.auth.currentUser!, phoneCredential);
+    return await updatePhoneNumber(this.auth.currentUser!, phoneCredential).then( async () => {
+      // update firestore
+      const userRef = collection(this.firestore, "/users/");
+      const uid = this.auth.currentUser?.uid;
+      return await updateDoc(doc(userRef,uid),{phoneNumber:`+${countryCode}${phoneNumber}`})
+    });
   } catch (error) {
    console.log(error) 
   }

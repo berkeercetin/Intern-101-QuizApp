@@ -28,7 +28,7 @@ export class ProfilePage implements OnInit {
       },
       {
         icon: {
-          name: "phone",
+          name: "call",
           color: "#DAA520"
         },
         href: "/main/update-phone-number",

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RecaptchaVerifier } from '@angular/fire/auth';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ToastController } from '@ionic/angular';
+import { LoadingController, ToastController } from '@ionic/angular';
 import { UserService } from 'src/app/modules/auth/services/user.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class UpdatePhoneNumberPage implements OnInit {
   phoneNumberForm:FormGroup
   applicationVerifier!:RecaptchaVerifier
   loading:boolean = false;
-  constructor(private fb: FormBuilder, private toastController:ToastController, private userService:UserService ) {
+  constructor(private fb: FormBuilder, private toastController:ToastController, private userService:UserService, private loadingController: LoadingController) {
    this.phoneNumberForm = this.fb.group({
       phoneNumber: new FormControl('', [Validators.required , Validators.pattern('[0-9]{10}')]),
     })
@@ -31,8 +31,12 @@ export class UpdatePhoneNumberPage implements OnInit {
       // this.userService.sendVerificationCode(this.phoneNumberForm.value.phoneNumber,90)
       // .then(res => {
       //   console.log(res)
+        this.loadingController.create({
+          spinner:"dots"
+        }).then( ctrl => ctrl.present() )
         const DUMMY_VERIFICATION_CODE = '123123';
         this.userService.updatePhoneNumber(this.phoneNumberForm.value.phoneNumber, DUMMY_VERIFICATION_CODE).then( () => {
+          this.loadingController.dismiss(); 
           this.toastController.create({
             animated:true,
             duration:5000,
