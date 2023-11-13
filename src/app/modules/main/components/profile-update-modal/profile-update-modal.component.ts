@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Input, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -29,7 +30,6 @@ export class ProfileUpdateModalComponent implements OnInit {
   ngOnInit() {
     this.personalInformationForm = this.fb.group({
       name: new FormControl('',[Validators.required]),
-      phoneNumber: new FormControl('', [Validators.required]),
       // eslint-disable-next-line no-useless-escape
       email: new FormControl('', [
         Validators.required,
@@ -52,7 +52,6 @@ export class ProfileUpdateModalComponent implements OnInit {
     if(this.userData){
       this.personalInformationForm.setValue({
         name: this.userData.displayName,
-        phoneNumber: this.userData.phoneNumber,
         email: this.userData.email,
         profilePhotoURL: this.userData.photoURL
       })

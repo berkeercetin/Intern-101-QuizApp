@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, OnInit } from '@angular/core';
 import { RecaptchaVerifier } from '@angular/fire/auth';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoadingController, ToastController } from '@ionic/angular';
+import { Observable } from 'rxjs';
 import { UserService } from 'src/app/modules/auth/services/user.service';
+import { GlobalService } from 'src/app/services/global.service';
 
 @Component({
   selector: 'app-update-phone-number',
@@ -13,14 +16,22 @@ export class UpdatePhoneNumberPage implements OnInit {
   phoneNumberForm:FormGroup
   applicationVerifier!:RecaptchaVerifier
   loading:boolean = false;
-  constructor(private fb: FormBuilder, private toastController:ToastController, private userService:UserService, private loadingController: LoadingController) {
+  userSubscription:Observable<any>;
+  
+  constructor(private fb: FormBuilder, private toastController:ToastController, private userService:UserService, private loadingController: LoadingController,private global:GlobalService) {
    this.phoneNumberForm = this.fb.group({
       phoneNumber: new FormControl('', [Validators.required , Validators.pattern('[0-9]{10}')]),
     })
+    
+    this.userSubscription = this.global.userSubscription
   }
 
   ngOnInit() {
     this.applicationVerifier = this.userService.reCaptchaVerifier();
+
+    this.userSubscription.subscribe((res:any) => {
+      this.phoneNumberForm.setValue({phoneNumber: res.phoneNumber.slice(3)})
+    })
   }
 
 
