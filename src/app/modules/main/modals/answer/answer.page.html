@@ -1,6 +1,6 @@
   <ion-content  class="ion-padding">
     <div class="ion-margin-top">
-      <ion-label [ngStyle]="{'color': status ? 'green' : 'red'}" >  {{ status ? 'Doğru' : 'Yanlış' }}
+      <ion-label [(ngModel)]="lastStatus" [ngStyle]="{'color': status ? 'green' : 'red'}" > {{lastStatus}}
       </ion-label>
       <br>
       <ion-label *ngIf="!status" style="color: green; font-size: 12px;"> {{ word.turkishWordName }}</ion-label>

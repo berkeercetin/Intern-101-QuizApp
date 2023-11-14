@@ -8,12 +8,24 @@ import { WordModel } from '../../models/wordModel';
   styleUrls: ['./answer.page.scss'],
 })
 export class AnswerPage implements OnInit {
-  @Input() status!: boolean ;
+  @Input() status?: boolean ;
   @Input() word!: WordModel ;
-
+  lastStatus?: string=  "";
   constructor(private modalController: ModalController) { }
 
-  ngOnInit() {console.log(this.word)}
+  ngOnInit() {console.log("AAAAAAA" +this.status)}
+
+  ionViewWillEnter(){
+    if (this.status == true) {
+      this.lastStatus = "Doğru";
+    } else if (this.status == false) {
+      this.lastStatus = "Yanlış";
+    }
+    else {
+      this.lastStatus = "Boş";
+    }
+  }
+
   
   async dismiss() {this.modalController.dismiss();}
 

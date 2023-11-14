@@ -8,6 +8,7 @@ import { AlertController, LoadingController, ModalController } from '@ionic/angu
 import { AnswerPage } from '../../modals/answer/answer.page';
 import { QuestionModel } from '../../models/Question.model';
 import { WordModel } from '../../models/wordModel';
+import { TextToSpeech } from '@capacitor-community/text-to-speech';
 
 @Component({
   selector: 'app-word-cards-deck',
@@ -22,9 +23,16 @@ export class WordCardsDeckPage implements OnInit {
   isFlipped!: boolean[]
   subs: Subscription = new Subscription();
   index: number = 0
+  success: number = 0
   type = this.route.snapshot.params['type']
   questions:QuestionModel[]=[]
   questionLoading:boolean=false
+  // poem?: string; 
+  // voices!: SpeechSynthesisVoice[]; 
+  // voice?: SpeechSynthesisVoice; 
+  // speaking?: boolean;
+
+
   constructor(
     private wordService: WordService,
     public route: ActivatedRoute,
@@ -35,9 +43,7 @@ export class WordCardsDeckPage implements OnInit {
     private alertController:AlertController,
     private spinnerController:LoadingController
   ) { }
-    ngOnInit() {
-      
-    }
+    ngOnInit() {}
   ionViewWillEnter() {
     this.spinnerController.create({
       message: "Yükleniyor...",
@@ -45,38 +51,82 @@ export class WordCardsDeckPage implements OnInit {
       spinner:"crescent",
     }).then((res)=>{
       res.present();
-      this.getWords().then(()=>{
-        if(this.type=="quiz"){
-          this.getQuestions().then(()=>{
-            this.spinnerController.dismiss();
-          });
-        } else {
+
+    });
+    
+    // this.voices = speechSynthesis.getVoices()
+    // // set the default voice to the first Turkish voice
+    // this.voice = this.voices.find(v => v.lang === 'tr-TR');
+    // // set the default speaking status to false
+    // this.speaking = false;
+    this.getWords().then(()=>{
+      if(this.type=="quiz"){
+        this.getQuestions().then(()=>{
           this.spinnerController.dismiss();
-        }
-      });
+        });
+      } else {
+        this.spinnerController.dismiss();
+      }
     });
 
   }
+  async speak() {
+    await TextToSpeech.speak({
+      text: this.words[this.index].wordName!,
+      lang: 'en-US',
+      rate: 1.0,
+      pitch: 1.0,
+      volume: 1.0,
+      category: 'ambient',
+    });
+  }
+
+  // // a method to change the voice
+  // changeVoice(event:any) {
+  //   // get the voice name from the event
+  //   const voiceName = event.target.value;
+  //   // find the voice by the name
+  //   this.voice = this.voices.find(v => v.name === voiceName);
+  // }
+
+
+
 
   flipCard(index: number) {
     this.isFlipped[index] = !this.isFlipped[index];
   }
 
-  checkAnswer() {
+  checkAnswer(isSkipped?:boolean) {
     if (this.selectedAnswer == this.words[this.index].turkishWordName) {
-      this.presentModal(true, this.words[this.index])
+      this.success++
+      this.presentModal(true, this.words[this.index],isSkipped)
+    }
+    else if (this.selectedAnswer == undefined) {
+      this.presentModal(undefined, this.words[this.index],isSkipped)
     }
     else {
-      this.presentModal(false, this.words[this.index])
+      this.presentModal(false, this.words[this.index],isSkipped)
     }
   }
   async presentAlert() {
-    const alert = await this.alertController.create({
-      header: 'Tamamladınız !',
-      buttons: ['OK'],
-    });
-    this.router.navigateByUrl('/main/home')
-    await alert.present();
+    const successRate = (this.success / this.questions.length) * 100
+    if(this.type=="quiz"){
+      const alert = await this.alertController.create({
+        header: 'Tamamladınız !',
+        message: 'Başarı oranınız : ' + successRate + '%',
+        buttons: ['OK'],
+      });
+      this.router.navigateByUrl('/main/home')
+      await alert.present();
+    }
+    else{
+      const alert = await this.alertController.create({
+        header: 'Tamamladınız !',
+        buttons: ['OK'],
+      });
+      this.router.navigateByUrl('/main/home')
+      await alert.present();
+    }
   }
 
   async nextCard() {
@@ -85,6 +135,9 @@ export class WordCardsDeckPage implements OnInit {
       if (await this.userService.checkLearningWord(this.words[this.index].wordID ||"" , this.authService.isLogged()|| "")) {
         this.userService.addLearningWord(this.words[this.index].wordID || ""  , this.authService.isLogged() || "")
       }
+    }
+    if(this.type=="quiz"){
+      this.selectedAnswer = undefined
     }
     if (this.index == this.words.length - 1) {
       this.index = 0
@@ -140,15 +193,16 @@ export class WordCardsDeckPage implements OnInit {
 
   }
 
-  async presentModal(status: boolean, word: WordModel) {
+  async presentModal(status?: boolean, word?: WordModel,isSkipped?:boolean) {
     const modal = await this.modalController.create({
       component: AnswerPage,
       backdropDismiss: false,
       breakpoints: [0, 0.25, 0.5, 0.75],
-      initialBreakpoint: 0.25,
+      initialBreakpoint: 0.50,
       componentProps: {
         'status': status,
         'word': word,
+        'isSkipped':isSkipped,
       },
     });
     modal.onDidDismiss()
