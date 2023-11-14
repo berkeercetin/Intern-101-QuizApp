@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/modules/auth/services/auth.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class ChangePasswordPage implements OnInit {
   password!: string;
   repeatPassword!: string
   
-  constructor(private router: Router,private auth:AuthService,private loadingController:LoadingController) { }
+  constructor(private router: Router,private auth:AuthService,private loadingController:LoadingController, private toastController: ToastController) { }
   
   get errorControl() { return this.ionicForm.controls;}
 
@@ -36,10 +36,29 @@ export class ChangePasswordPage implements OnInit {
       console.log(this.ionicForm.value)
       this.loadingController.create({message:'Şifre Sıfırlanıyor', spinner:'crescent', animated:true})
       .then(res => res.present());
-      this.auth.updatePassword(this.ionicForm.value.oldPassword ,this.ionicForm.value.repeat)
-      .then(res => {console.log("basarılı:"+res);this.router.navigateByUrl('/main/home');})
-      .catch(err=>console.log(err))
-      .finally(() => { this.loadingController.dismiss(); });
+      this.auth.updatePassword(this.ionicForm.value.oldPassword ,this.ionicForm.value.newPassword)
+      .then(res => {
+        console.log("basarılı:"+res);
+        this.router.navigateByUrl('/main/home');
+        this.loadingController.dismiss();
+        this.toastController.create({
+          animated:true,
+          duration:5000,
+          mode:"ios",
+          message:"Password has been changed",
+          icon:"mail-outline"
+        }).then(toast => { toast.present() })
+      })
+      .catch(err=>{
+        this.loadingController.dismiss();
+        this.toastController.create({
+          animated:true,
+          duration:5000,
+          mode:"ios",
+          message:"Error on " + err,
+          icon:"alert-circle-outline"
+        }).then(toast => { toast.present() })
+      })
     }
   }
 }

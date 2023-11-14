@@ -52,6 +52,10 @@ const routes: Routes = [
         path: 'update-phone-number',
         loadChildren: () => import('./pages/update-phone-number/update-phone-number.module').then( m => m.UpdatePhoneNumberPageModule)
       },
+      {
+        path: 'update-email',
+        loadChildren: () => import('./pages/update-email/update-email.module').then( m => m.UpdateEmailPageModule)
+      },
     ]
   },
 

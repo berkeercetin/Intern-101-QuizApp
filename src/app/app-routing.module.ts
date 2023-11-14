@@ -12,6 +12,11 @@ const routes: Routes = [
     loadChildren: () => import('./modules/auth/auth.module').then( m => m.AuthPageModule)
   },
   {
+      path: 'set-new-password',
+      loadChildren: () => import('./modules/auth/pages/set-new-password/set-new-password.module').then( m => m.SetNewPasswordPageModule)
+  
+  },
+  {
     canActivate: [AuthGuard],
     data: { authGuardPipe: redirectUnauthorizedToHome },
     path: 'main',

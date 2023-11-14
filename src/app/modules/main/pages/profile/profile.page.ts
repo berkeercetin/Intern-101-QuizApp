@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular';
 import { GlobalService } from 'src/app/services/global.service';
 import { ProfileUpdateModalComponent } from '../../components/profile-update-modal/profile-update-modal.component';
@@ -23,7 +23,7 @@ export class ProfilePage implements OnInit {
           name: "key",
           color: "#DAA520"
         },
-        href: "#",
+        href: "/main/change-password",
         name: "Chance Password",
       },
       {
@@ -33,6 +33,14 @@ export class ProfilePage implements OnInit {
         },
         href: "/main/update-phone-number",
         name: "Chance Phone Number",
+      },
+      {
+        icon: {
+          name: "mail",
+          color: "#DAA520"
+        },
+        href: "/main/update-email",
+        name: "Chance Email",
       },
       {
         icon: {
@@ -85,13 +93,15 @@ export class ProfilePage implements OnInit {
     ]
   constructor(
     private popoverController: PopoverController,
-    public global: GlobalService
+    public global: GlobalService,
+    private chanceDedection: ChangeDetectorRef
   ) { }
 
   userData?: UserModel;
   ngOnInit() {
     this.global.userSubscription.subscribe(res => {
       this.userData = new UserModel(res)
+      this.chanceDedection.detectChanges()
     })
   }
 
@@ -105,7 +115,14 @@ export class ProfilePage implements OnInit {
         "userID": this.userData?.uid,
         "userData": this.userData
       },
-    }).then( res => res.present() )
+    }).then( res => {
+      res.present();
+      res.onDidDismiss().then(res => {
+        this.userData = new UserModel({...this.userData , ...res.data.data})
+        console.log(this.userData)
+      })
+    }
+    )
   }
 
 }

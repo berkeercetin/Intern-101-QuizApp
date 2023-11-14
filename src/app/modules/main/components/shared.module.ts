@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { ProfileUpdateModalComponent } from './profile-update-modal/profile-update-modal.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { ConfirmPasswordComponent } from './confirm-password/confirm-password.component';
 
 
 
 @NgModule({
   declarations: [
-    ProfileUpdateModalComponent
+    ProfileUpdateModalComponent,
+    ConfirmPasswordComponent
   ],
   imports: [
     CommonModule,
@@ -18,7 +20,8 @@ import { IonicModule } from '@ionic/angular';
     
   ],
   exports:[
-    ProfileUpdateModalComponent
+    ProfileUpdateModalComponent,
+    ConfirmPasswordComponent
   ]
 })
 export class SharedModule { }

@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Auth, PhoneAuthProvider, RecaptchaParameters, RecaptchaVerifier, UserProfile, signInWithEmailAndPassword, signInWithPhoneNumber, updatePhoneNumber, updateProfile } from '@angular/fire/auth';
+import { Auth, EmailAuthProvider, PhoneAuthProvider, RecaptchaParameters, RecaptchaVerifier, UserProfile, applyActionCode, reauthenticateWithCredential, signInWithEmailAndPassword, signInWithPhoneNumber, updateEmail, updatePhoneNumber, updateProfile, verifyBeforeUpdateEmail } from '@angular/fire/auth';
 import { CollectionReference,updateDoc,collectionData , Firestore, collection, doc, getDoc, setDoc } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -141,8 +141,9 @@ async updatePhoneNumber(phoneNumber:string, verificationCode:string, countryCode
       const uid = this.auth.currentUser?.uid;
       return await updateDoc(doc(userRef,uid),{phoneNumber:`+${countryCode}${phoneNumber}`})
     });
-  } catch (error) {
-   console.log(error) 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error:any) {
+    throw new Error( error )
   }
 }
 
@@ -156,6 +157,32 @@ reCaptchaVerifier(){
   const recaptchaParameters:RecaptchaParameters = { size:"invisible" }
   return new RecaptchaVerifier('recaptcha-container',recaptchaParameters,this.auth);
 }
+
+
+async updateEmail(email:string, password:string){
+
+const user = this.auth.currentUser;
+const credential = EmailAuthProvider.credential(
+  user!.email!, 
+  password
+);
+ 
+ return await reauthenticateWithCredential(user!,credential).then( async () => {
+  const domainName="http://localhost:8100/main/update-email" 
+  const actionCodeSettings = {
+    //  url: domainName +'/?email=user@example.com',
+    url: domainName,
+    handleCodeInApp: true
+  };
+    return await verifyBeforeUpdateEmail(user!, email , actionCodeSettings).then((res) => { console.log("updated" , res) })
+    .catch( err => {throw new Error( err)})
+  }).catch( err => {throw new Error( err)}); 
+}
+
+async initActionCodeForEmail(obbCode:string){
+  return await applyActionCode(this.auth, obbCode);
+}
+
 
 
 

@@ -31,10 +31,6 @@ export class ProfileUpdateModalComponent implements OnInit {
     this.personalInformationForm = this.fb.group({
       name: new FormControl('',[Validators.required]),
       // eslint-disable-next-line no-useless-escape
-      email: new FormControl('', [
-        Validators.required,
-        Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$'),
-      ]),
       profilePhotoURL: new FormControl('', []),
     });
 
@@ -124,8 +120,8 @@ export class ProfileUpdateModalComponent implements OnInit {
     if(this.personalInformationForm.valid){
       console.log(this.personalInformationForm.value)
       this.userService.setProfileData(this.personalInformationForm.value,this.userID).then(res=>console.log(res)).catch(err=>console.log(err))
+      this.popoverController.dismiss({data:this.personalInformationForm.value});
     }
-    this.popoverController.dismiss();
     
   }
 }

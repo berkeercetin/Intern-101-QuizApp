@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Auth, verifyPasswordResetCode, GoogleAuthProvider, updatePassword, UserCredential, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, confirmPasswordReset } from '@angular/fire/auth';
+import { Auth, verifyPasswordResetCode, GoogleAuthProvider, updatePassword, UserCredential, createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, confirmPasswordReset, EmailAuthProvider, reauthenticateWithCredential } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -46,10 +46,19 @@ export class AuthService {
   }
 
   async updatePassword(oldPassword: string, newPassword: string) {
-    signInWithEmailAndPassword(this.auth, this.auth.currentUser!.email!.trim(), oldPassword.trim()).then(() => {
-      return updatePassword(this.auth.currentUser!, newPassword)
-    })
-  }
+
+    const user = this.auth.currentUser;
+    const credential = EmailAuthProvider.credential(
+      user!.email!, 
+      oldPassword
+    );
+
+       return await reauthenticateWithCredential(user!,credential).then( async () => {
+        return updatePassword(user!,newPassword)
+      }).catch( err => console.log(err)); 
+    
+    }
+  
 
   signup(email: string, password: string): Promise<UserCredential> {
     return createUserWithEmailAndPassword(

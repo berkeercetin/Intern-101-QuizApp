@@ -42,9 +42,7 @@ export class UpdatePhoneNumberPage implements OnInit {
       // this.userService.sendVerificationCode(this.phoneNumberForm.value.phoneNumber,90)
       // .then(res => {
       //   console.log(res)
-        this.loadingController.create({
-          spinner:"dots"
-        }).then( ctrl => ctrl.present() )
+      this.loadingController.create({message:'SMS gönderiliyor', spinner:'crescent', animated:true}).then(  ctrl => ctrl.present())
         const DUMMY_VERIFICATION_CODE = '123123';
         this.userService.updatePhoneNumber(this.phoneNumberForm.value.phoneNumber, DUMMY_VERIFICATION_CODE).then( () => {
           this.loadingController.dismiss(); 
@@ -54,6 +52,15 @@ export class UpdatePhoneNumberPage implements OnInit {
             message:"Phone number updated successfully",
             mode:"ios",
             icon:"checkmark-circle-outline"
+          }).then(toast => { toast.present() })
+        }).catch( err  => {
+          this.loadingController.dismiss();
+          this.toastController.create({
+            animated: true,
+            duration: 5000,
+            mode: "ios",
+            message: "Error on " + err,
+            icon: "alert-circle-outline"
           }).then(toast => { toast.present() })
         })
 
@@ -70,6 +77,9 @@ export class UpdatePhoneNumberPage implements OnInit {
     icon:"alert-circle-outline"
   }).then(toast => { toast.present() })
 }
+
+
+
 
 
 }

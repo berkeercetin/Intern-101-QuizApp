@@ -1,0 +1,12 @@
+<ion-content [fullscreen]="true">
+  <ion-title style="color: white;"  >Email Değiştir</ion-title>
+  <form style="padding: 12px;" [formGroup]="emailForm">
+      <ion-item  fill="outline" lines="full" >
+        <ion-input  formControlName="email" class="custom" placeholder="example@example.com" label="E-posta" labelPlacement="floating"></ion-input>
+      </ion-item>
+      <ion-button (click)="submit()" expand="block" fill="outline" mode="ios">
+        Email değiştir.
+        <ion-icon slot="start" name="log-in-outline"></ion-icon>
+      </ion-button>
+  </form>
+</ion-content>
